@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package drivecountry.v1;
+
+option go_package = "github.com/XoxxxoL-CW/drive-country-proto/gen/go/drivecountry/v1;drivecountryv1";
+
+service HealthService {
+  rpc Ping(PingRequest) returns (PingResponse);
+}
+
+message PingRequest {}
+
+message PingResponse {
+  string message = 1;
+}
