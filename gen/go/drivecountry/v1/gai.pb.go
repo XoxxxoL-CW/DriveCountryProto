@@ -73,27 +73,27 @@ func (GaiCategory) EnumDescriptor() ([]byte, []int) {
 	return file_drivecountry_v1_gai_proto_rawDescGZIP(), []int{0}
 }
 
-type NormalizeNumberRequest struct {
+type NormalizeAndValidateNumberRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Input         string                 `protobuf:"bytes,1,opt,name=input,proto3" json:"input,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *NormalizeNumberRequest) Reset() {
-	*x = NormalizeNumberRequest{}
+func (x *NormalizeAndValidateNumberRequest) Reset() {
+	*x = NormalizeAndValidateNumberRequest{}
 	mi := &file_drivecountry_v1_gai_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *NormalizeNumberRequest) String() string {
+func (x *NormalizeAndValidateNumberRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*NormalizeNumberRequest) ProtoMessage() {}
+func (*NormalizeAndValidateNumberRequest) ProtoMessage() {}
 
-func (x *NormalizeNumberRequest) ProtoReflect() protoreflect.Message {
+func (x *NormalizeAndValidateNumberRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_drivecountry_v1_gai_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -105,19 +105,19 @@ func (x *NormalizeNumberRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NormalizeNumberRequest.ProtoReflect.Descriptor instead.
-func (*NormalizeNumberRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use NormalizeAndValidateNumberRequest.ProtoReflect.Descriptor instead.
+func (*NormalizeAndValidateNumberRequest) Descriptor() ([]byte, []int) {
 	return file_drivecountry_v1_gai_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *NormalizeNumberRequest) GetInput() string {
+func (x *NormalizeAndValidateNumberRequest) GetInput() string {
 	if x != nil {
 		return x.Input
 	}
 	return ""
 }
 
-type NormalizeNumberResponse struct {
+type NormalizeAndValidateNumberResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	FullNumber    string                 `protobuf:"bytes,1,opt,name=full_number,json=fullNumber,proto3" json:"full_number,omitempty"`
 	Category      GaiCategory            `protobuf:"varint,2,opt,name=category,proto3,enum=drivecountry.v1.GaiCategory" json:"category,omitempty"`
@@ -125,20 +125,20 @@ type NormalizeNumberResponse struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *NormalizeNumberResponse) Reset() {
-	*x = NormalizeNumberResponse{}
+func (x *NormalizeAndValidateNumberResponse) Reset() {
+	*x = NormalizeAndValidateNumberResponse{}
 	mi := &file_drivecountry_v1_gai_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *NormalizeNumberResponse) String() string {
+func (x *NormalizeAndValidateNumberResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*NormalizeNumberResponse) ProtoMessage() {}
+func (*NormalizeAndValidateNumberResponse) ProtoMessage() {}
 
-func (x *NormalizeNumberResponse) ProtoReflect() protoreflect.Message {
+func (x *NormalizeAndValidateNumberResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_drivecountry_v1_gai_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -150,19 +150,19 @@ func (x *NormalizeNumberResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NormalizeNumberResponse.ProtoReflect.Descriptor instead.
-func (*NormalizeNumberResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use NormalizeAndValidateNumberResponse.ProtoReflect.Descriptor instead.
+func (*NormalizeAndValidateNumberResponse) Descriptor() ([]byte, []int) {
 	return file_drivecountry_v1_gai_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *NormalizeNumberResponse) GetFullNumber() string {
+func (x *NormalizeAndValidateNumberResponse) GetFullNumber() string {
 	if x != nil {
 		return x.FullNumber
 	}
 	return ""
 }
 
-func (x *NormalizeNumberResponse) GetCategory() GaiCategory {
+func (x *NormalizeAndValidateNumberResponse) GetCategory() GaiCategory {
 	if x != nil {
 		return x.Category
 	}
@@ -601,10 +601,10 @@ var File_drivecountry_v1_gai_proto protoreflect.FileDescriptor
 
 const file_drivecountry_v1_gai_proto_rawDesc = "" +
 	"\n" +
-	"\x19drivecountry/v1/gai.proto\x12\x0fdrivecountry.v1\".\n" +
-	"\x16NormalizeNumberRequest\x12\x14\n" +
-	"\x05input\x18\x01 \x01(\tR\x05input\"t\n" +
-	"\x17NormalizeNumberResponse\x12\x1f\n" +
+	"\x19drivecountry/v1/gai.proto\x12\x0fdrivecountry.v1\"9\n" +
+	"!NormalizeAndValidateNumberRequest\x12\x14\n" +
+	"\x05input\x18\x01 \x01(\tR\x05input\"\x7f\n" +
+	"\"NormalizeAndValidateNumberResponse\x12\x1f\n" +
 	"\vfull_number\x18\x01 \x01(\tR\n" +
 	"fullNumber\x128\n" +
 	"\bcategory\x18\x02 \x01(\x0e2\x1c.drivecountry.v1.GaiCategoryR\bcategory\":\n" +
@@ -637,10 +637,10 @@ const file_drivecountry_v1_gai_proto_rawDesc = "" +
 	"\x18GAI_CATEGORY_UNSPECIFIED\x10\x00\x12\x17\n" +
 	"\x13GAI_CATEGORY_NORMAL\x10\x01\x12'\n" +
 	"#GAI_CATEGORY_SAME_DIGITS_OR_LETTERS\x10\x02\x12(\n" +
-	"$GAI_CATEGORY_SAME_DIGITS_AND_LETTERS\x10\x032\x92\x04\n" +
+	"$GAI_CATEGORY_SAME_DIGITS_AND_LETTERS\x10\x032\xa9\x04\n" +
 	"\n" +
-	"GaiService\x12o\n" +
-	"\x1aNormalizeAndValidateNumber\x12'.drivecountry.v1.NormalizeNumberRequest\x1a(.drivecountry.v1.NormalizeNumberResponse\x12j\n" +
+	"GaiService\x12\x85\x01\n" +
+	"\x1aNormalizeAndValidateNumber\x122.drivecountry.v1.NormalizeAndValidateNumberRequest\x1a3.drivecountry.v1.NormalizeAndValidateNumberResponse\x12j\n" +
 	"\x11CheckAvailability\x12).drivecountry.v1.CheckAvailabilityRequest\x1a*.drivecountry.v1.CheckAvailabilityResponse\x12a\n" +
 	"\x0eCalculatePrice\x12&.drivecountry.v1.CalculatePriceRequest\x1a'.drivecountry.v1.CalculatePriceResponse\x12p\n" +
 	"\x13ChoiceNumberReplace\x12+.drivecountry.v1.ChoiceNumberReplaceRequest\x1a,.drivecountry.v1.ChoiceNumberReplaceResponse\x12R\n" +
@@ -661,29 +661,29 @@ func file_drivecountry_v1_gai_proto_rawDescGZIP() []byte {
 var file_drivecountry_v1_gai_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_drivecountry_v1_gai_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_drivecountry_v1_gai_proto_goTypes = []any{
-	(GaiCategory)(0),                    // 0: drivecountry.v1.GaiCategory
-	(*NormalizeNumberRequest)(nil),      // 1: drivecountry.v1.NormalizeNumberRequest
-	(*NormalizeNumberResponse)(nil),     // 2: drivecountry.v1.NormalizeNumberResponse
-	(*CheckAvailabilityRequest)(nil),    // 3: drivecountry.v1.CheckAvailabilityRequest
-	(*CheckAvailabilityResponse)(nil),   // 4: drivecountry.v1.CheckAvailabilityResponse
-	(*CalculatePriceRequest)(nil),       // 5: drivecountry.v1.CalculatePriceRequest
-	(*CalculatePriceResponse)(nil),      // 6: drivecountry.v1.CalculatePriceResponse
-	(*ChoiceNumberReplaceRequest)(nil),  // 7: drivecountry.v1.ChoiceNumberReplaceRequest
-	(*GaiUserCar)(nil),                  // 8: drivecountry.v1.GaiUserCar
-	(*ChoiceNumberReplaceResponse)(nil), // 9: drivecountry.v1.ChoiceNumberReplaceResponse
-	(*BuyNumberRequest)(nil),            // 10: drivecountry.v1.BuyNumberRequest
-	(*BuyNumberResponse)(nil),           // 11: drivecountry.v1.BuyNumberResponse
+	(GaiCategory)(0), // 0: drivecountry.v1.GaiCategory
+	(*NormalizeAndValidateNumberRequest)(nil),  // 1: drivecountry.v1.NormalizeAndValidateNumberRequest
+	(*NormalizeAndValidateNumberResponse)(nil), // 2: drivecountry.v1.NormalizeAndValidateNumberResponse
+	(*CheckAvailabilityRequest)(nil),           // 3: drivecountry.v1.CheckAvailabilityRequest
+	(*CheckAvailabilityResponse)(nil),          // 4: drivecountry.v1.CheckAvailabilityResponse
+	(*CalculatePriceRequest)(nil),              // 5: drivecountry.v1.CalculatePriceRequest
+	(*CalculatePriceResponse)(nil),             // 6: drivecountry.v1.CalculatePriceResponse
+	(*ChoiceNumberReplaceRequest)(nil),         // 7: drivecountry.v1.ChoiceNumberReplaceRequest
+	(*GaiUserCar)(nil),                         // 8: drivecountry.v1.GaiUserCar
+	(*ChoiceNumberReplaceResponse)(nil),        // 9: drivecountry.v1.ChoiceNumberReplaceResponse
+	(*BuyNumberRequest)(nil),                   // 10: drivecountry.v1.BuyNumberRequest
+	(*BuyNumberResponse)(nil),                  // 11: drivecountry.v1.BuyNumberResponse
 }
 var file_drivecountry_v1_gai_proto_depIdxs = []int32{
-	0,  // 0: drivecountry.v1.NormalizeNumberResponse.category:type_name -> drivecountry.v1.GaiCategory
+	0,  // 0: drivecountry.v1.NormalizeAndValidateNumberResponse.category:type_name -> drivecountry.v1.GaiCategory
 	0,  // 1: drivecountry.v1.CalculatePriceRequest.category:type_name -> drivecountry.v1.GaiCategory
 	8,  // 2: drivecountry.v1.ChoiceNumberReplaceResponse.cars:type_name -> drivecountry.v1.GaiUserCar
-	1,  // 3: drivecountry.v1.GaiService.NormalizeAndValidateNumber:input_type -> drivecountry.v1.NormalizeNumberRequest
+	1,  // 3: drivecountry.v1.GaiService.NormalizeAndValidateNumber:input_type -> drivecountry.v1.NormalizeAndValidateNumberRequest
 	3,  // 4: drivecountry.v1.GaiService.CheckAvailability:input_type -> drivecountry.v1.CheckAvailabilityRequest
 	5,  // 5: drivecountry.v1.GaiService.CalculatePrice:input_type -> drivecountry.v1.CalculatePriceRequest
 	7,  // 6: drivecountry.v1.GaiService.ChoiceNumberReplace:input_type -> drivecountry.v1.ChoiceNumberReplaceRequest
 	10, // 7: drivecountry.v1.GaiService.BuyNumber:input_type -> drivecountry.v1.BuyNumberRequest
-	2,  // 8: drivecountry.v1.GaiService.NormalizeAndValidateNumber:output_type -> drivecountry.v1.NormalizeNumberResponse
+	2,  // 8: drivecountry.v1.GaiService.NormalizeAndValidateNumber:output_type -> drivecountry.v1.NormalizeAndValidateNumberResponse
 	4,  // 9: drivecountry.v1.GaiService.CheckAvailability:output_type -> drivecountry.v1.CheckAvailabilityResponse
 	6,  // 10: drivecountry.v1.GaiService.CalculatePrice:output_type -> drivecountry.v1.CalculatePriceResponse
 	9,  // 11: drivecountry.v1.GaiService.ChoiceNumberReplace:output_type -> drivecountry.v1.ChoiceNumberReplaceResponse

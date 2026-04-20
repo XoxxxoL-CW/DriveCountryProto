@@ -30,7 +30,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type GaiServiceClient interface {
-	NormalizeAndValidateNumber(ctx context.Context, in *NormalizeNumberRequest, opts ...grpc.CallOption) (*NormalizeNumberResponse, error)
+	NormalizeAndValidateNumber(ctx context.Context, in *NormalizeAndValidateNumberRequest, opts ...grpc.CallOption) (*NormalizeAndValidateNumberResponse, error)
 	CheckAvailability(ctx context.Context, in *CheckAvailabilityRequest, opts ...grpc.CallOption) (*CheckAvailabilityResponse, error)
 	CalculatePrice(ctx context.Context, in *CalculatePriceRequest, opts ...grpc.CallOption) (*CalculatePriceResponse, error)
 	ChoiceNumberReplace(ctx context.Context, in *ChoiceNumberReplaceRequest, opts ...grpc.CallOption) (*ChoiceNumberReplaceResponse, error)
@@ -45,9 +45,9 @@ func NewGaiServiceClient(cc grpc.ClientConnInterface) GaiServiceClient {
 	return &gaiServiceClient{cc}
 }
 
-func (c *gaiServiceClient) NormalizeAndValidateNumber(ctx context.Context, in *NormalizeNumberRequest, opts ...grpc.CallOption) (*NormalizeNumberResponse, error) {
+func (c *gaiServiceClient) NormalizeAndValidateNumber(ctx context.Context, in *NormalizeAndValidateNumberRequest, opts ...grpc.CallOption) (*NormalizeAndValidateNumberResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(NormalizeNumberResponse)
+	out := new(NormalizeAndValidateNumberResponse)
 	err := c.cc.Invoke(ctx, GaiService_NormalizeAndValidateNumber_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -99,7 +99,7 @@ func (c *gaiServiceClient) BuyNumber(ctx context.Context, in *BuyNumberRequest, 
 // All implementations must embed UnimplementedGaiServiceServer
 // for forward compatibility.
 type GaiServiceServer interface {
-	NormalizeAndValidateNumber(context.Context, *NormalizeNumberRequest) (*NormalizeNumberResponse, error)
+	NormalizeAndValidateNumber(context.Context, *NormalizeAndValidateNumberRequest) (*NormalizeAndValidateNumberResponse, error)
 	CheckAvailability(context.Context, *CheckAvailabilityRequest) (*CheckAvailabilityResponse, error)
 	CalculatePrice(context.Context, *CalculatePriceRequest) (*CalculatePriceResponse, error)
 	ChoiceNumberReplace(context.Context, *ChoiceNumberReplaceRequest) (*ChoiceNumberReplaceResponse, error)
@@ -114,7 +114,7 @@ type GaiServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedGaiServiceServer struct{}
 
-func (UnimplementedGaiServiceServer) NormalizeAndValidateNumber(context.Context, *NormalizeNumberRequest) (*NormalizeNumberResponse, error) {
+func (UnimplementedGaiServiceServer) NormalizeAndValidateNumber(context.Context, *NormalizeAndValidateNumberRequest) (*NormalizeAndValidateNumberResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method NormalizeAndValidateNumber not implemented")
 }
 func (UnimplementedGaiServiceServer) CheckAvailability(context.Context, *CheckAvailabilityRequest) (*CheckAvailabilityResponse, error) {
@@ -151,7 +151,7 @@ func RegisterGaiServiceServer(s grpc.ServiceRegistrar, srv GaiServiceServer) {
 }
 
 func _GaiService_NormalizeAndValidateNumber_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(NormalizeNumberRequest)
+	in := new(NormalizeAndValidateNumberRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -163,7 +163,7 @@ func _GaiService_NormalizeAndValidateNumber_Handler(srv interface{}, ctx context
 		FullMethod: GaiService_NormalizeAndValidateNumber_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GaiServiceServer).NormalizeAndValidateNumber(ctx, req.(*NormalizeNumberRequest))
+		return srv.(GaiServiceServer).NormalizeAndValidateNumber(ctx, req.(*NormalizeAndValidateNumberRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
