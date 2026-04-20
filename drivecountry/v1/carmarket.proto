@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package drivecountry.v1;
+
+option go_package = "github.com/XoxxxoL-CW/drive-country-proto/gen/go/drivecountry/v1;drivecountryv1";
+
+service CarMarketService {
+  rpc GetCars(GetCarsRequest) returns (GetCarsResponse);
+  rpc GetCar(GetCarRequest) returns (GetCarResponse);
+  rpc StartBuyCar(StartBuyCarRequest) returns (StartBuyCarResponse);
+  rpc ChoiceCarColor(ChoiceCarColorRequest) returns (ChoiceCarColorResponse);
+  rpc GetCarNumber(GetCarNumberRequest) returns (GetCarNumberResponse);
+  rpc BuyCar(BuyCarRequest) returns (BuyCarResponse);
+  rpc SaveCarTemplateTelegramFile(SaveCarTemplateTelegramFileRequest) returns (SaveCarTemplateTelegramFileResponse);
+}
+
+message CarTemplate {
+  int32 id = 1;
+  string name = 2;
+  string s3_key = 3;
+  string s3_model = 4;
+  int32 price = 5;
+  int32 type_id = 6;
+  double speed = 7;
+  double consumption = 8;
+  int32 max_fuel = 9;
+  string telegram_file_id = 10;
+  string telegram_file_unique_id = 11;
+}
+
+message GetCarsRequest {
+  int32 type_id = 1;
+}
+
+message GetCarsResponse {
+  repeated CarTemplate cars = 1;
+}
+
+message GetCarRequest {
+  int32 car_id = 1;
+}
+
+message GetCarResponse {
+  CarTemplate car = 1;
+}
+
+message StartBuyCarRequest {
+  int64 user_id = 1;
+  int32 car_id = 2;
+}
+
+message StartBuyCarResponse {}
+
+message ChoiceCarColorRequest {
+  string color = 1;
+}
+
+message ChoiceCarColorResponse {}
+
+message GetCarNumberRequest {
+  string region = 1;
+}
+
+message GetCarNumberResponse {
+  string number = 1;
+}
+
+message BuyCarRequest {
+  int64 owner = 1;
+  int32 car_id = 2;
+  string number = 3;
+  string region = 4;
+  string color = 5;
+}
+
+message BuyCarResponse {}
+
+message SaveCarTemplateTelegramFileRequest {
+  int32 car_id = 1;
+  string telegram_file_id = 2;
+  string telegram_file_unique_id = 3;
+}
+
+message SaveCarTemplateTelegramFileResponse {}
