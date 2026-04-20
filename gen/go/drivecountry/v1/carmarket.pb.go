@@ -34,8 +34,13 @@ type CarTemplate struct {
 	MaxFuel              int32                  `protobuf:"varint,9,opt,name=max_fuel,json=maxFuel,proto3" json:"max_fuel,omitempty"`
 	TelegramFileId       string                 `protobuf:"bytes,10,opt,name=telegram_file_id,json=telegramFileId,proto3" json:"telegram_file_id,omitempty"`
 	TelegramFileUniqueId string                 `protobuf:"bytes,11,opt,name=telegram_file_unique_id,json=telegramFileUniqueId,proto3" json:"telegram_file_unique_id,omitempty"`
-	unknownFields        protoimpl.UnknownFields
-	sizeCache            protoimpl.SizeCache
+	// Server-rendered presentation helpers — single source of truth for the
+	// emoji and speed bar so every client shows identical output. Clients MUST
+	// use these fields rather than re-implementing the mapping locally.
+	Icon          string `protobuf:"bytes,12,opt,name=icon,proto3" json:"icon,omitempty"`
+	SpeedInfo     string `protobuf:"bytes,13,opt,name=speed_info,json=speedInfo,proto3" json:"speed_info,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *CarTemplate) Reset() {
@@ -141,6 +146,20 @@ func (x *CarTemplate) GetTelegramFileId() string {
 func (x *CarTemplate) GetTelegramFileUniqueId() string {
 	if x != nil {
 		return x.TelegramFileUniqueId
+	}
+	return ""
+}
+
+func (x *CarTemplate) GetIcon() string {
+	if x != nil {
+		return x.Icon
+	}
+	return ""
+}
+
+func (x *CarTemplate) GetSpeedInfo() string {
+	if x != nil {
+		return x.SpeedInfo
 	}
 	return ""
 }
@@ -789,7 +808,7 @@ var File_drivecountry_v1_carmarket_proto protoreflect.FileDescriptor
 
 const file_drivecountry_v1_carmarket_proto_rawDesc = "" +
 	"\n" +
-	"\x1fdrivecountry/v1/carmarket.proto\x12\x0fdrivecountry.v1\"\xc6\x02\n" +
+	"\x1fdrivecountry/v1/carmarket.proto\x12\x0fdrivecountry.v1\"\xf9\x02\n" +
 	"\vCarTemplate\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x15\n" +
@@ -802,7 +821,10 @@ const file_drivecountry_v1_carmarket_proto_rawDesc = "" +
 	"\bmax_fuel\x18\t \x01(\x05R\amaxFuel\x12(\n" +
 	"\x10telegram_file_id\x18\n" +
 	" \x01(\tR\x0etelegramFileId\x125\n" +
-	"\x17telegram_file_unique_id\x18\v \x01(\tR\x14telegramFileUniqueId\")\n" +
+	"\x17telegram_file_unique_id\x18\v \x01(\tR\x14telegramFileUniqueId\x12\x12\n" +
+	"\x04icon\x18\f \x01(\tR\x04icon\x12\x1d\n" +
+	"\n" +
+	"speed_info\x18\r \x01(\tR\tspeedInfo\")\n" +
 	"\x0eGetCarsRequest\x12\x17\n" +
 	"\atype_id\x18\x01 \x01(\x05R\x06typeId\"C\n" +
 	"\x0fGetCarsResponse\x120\n" +

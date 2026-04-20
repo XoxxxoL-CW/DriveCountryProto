@@ -26,6 +26,12 @@ message CarTemplate {
   int32 max_fuel = 9;
   string telegram_file_id = 10;
   string telegram_file_unique_id = 11;
+
+  // Server-rendered presentation helpers — single source of truth for the
+  // emoji and speed bar so every client shows identical output. Clients MUST
+  // use these fields rather than re-implementing the mapping locally.
+  string icon = 12;
+  string speed_info = 13;
 }
 
 message GetCarsRequest {
