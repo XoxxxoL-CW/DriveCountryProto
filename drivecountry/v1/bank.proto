@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package drivecountry.v1;
+
+option go_package = "github.com/XoxxxoL-CW/drive-country-proto/gen/go/drivecountry/v1;drivecountryv1";
+
+service BankService {
+  rpc TopUpCash(TopUpCashRequest) returns (TopUpCashResponse);
+  rpc WithdrawCash(WithdrawCashRequest) returns (WithdrawCashResponse);
+  rpc Transfer(TransferRequest) returns (TransferResponse);
+}
+
+message TopUpCashRequest {
+  int64 user_id = 1;
+  int64 amount_rub = 2;
+}
+
+message TopUpCashResponse {}
+
+message WithdrawCashRequest {
+  int64 user_id = 1;
+  int64 amount_rub = 2;
+}
+
+message WithdrawCashResponse {}
+
+message TransferRequest {
+  int64 sender_user_id = 1;
+  int64 receiver_account_number = 2;
+  int64 amount_rub = 3;
+}
+
+message TransferResponse {}
