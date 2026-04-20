@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package drivecountry.v1;
+
+option go_package = "github.com/XoxxxoL-CW/drive-country-proto/gen/go/drivecountry/v1;drivecountryv1";
+
+service GaiService {
+  rpc NormalizeAndValidateNumber(NormalizeNumberRequest) returns (NormalizeNumberResponse);
+  rpc CheckAvailability(CheckAvailabilityRequest) returns (CheckAvailabilityResponse);
+  rpc CalculatePrice(CalculatePriceRequest) returns (CalculatePriceResponse);
+  rpc ChoiceNumberReplace(ChoiceNumberReplaceRequest) returns (ChoiceNumberReplaceResponse);
+  rpc BuyNumber(BuyNumberRequest) returns (BuyNumberResponse);
+}
+
+enum GaiCategory {
+  GAI_CATEGORY_UNSPECIFIED = 0;
+  GAI_CATEGORY_NORMAL = 1;
+  GAI_CATEGORY_SAME_DIGITS_OR_LETTERS = 2;
+  GAI_CATEGORY_SAME_DIGITS_AND_LETTERS = 3;
+}
+
+message NormalizeNumberRequest {
+  string input = 1;
+}
+
+message NormalizeNumberResponse {
+  string full_number = 1;
+  GaiCategory category = 2;
+}
+
+message CheckAvailabilityRequest {
+  string normalized = 1;
+}
+
+message CheckAvailabilityResponse {
+  bool available = 1;
+}
+
+message CalculatePriceRequest {
+  GaiCategory category = 1;
+}
+
+message CalculatePriceResponse {
+  int64 price = 1;
+}
+
+message ChoiceNumberReplaceRequest {
+  int64 user_id = 1;
+}
+
+message GaiUserCar {
+  int64 id = 1;
+  string number = 2;
+  bool active = 3;
+}
+
+message ChoiceNumberReplaceResponse {
+  repeated GaiUserCar cars = 1;
+}
+
+message BuyNumberRequest {
+  int64 user_id = 1;
+  int64 car_user_id = 2;
+  string number = 3;
+  int64 price = 4;
+}
+
+message BuyNumberResponse {}
