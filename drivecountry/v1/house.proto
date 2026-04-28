@@ -1,0 +1,162 @@
+syntax = "proto3";
+
+package drivecountry.v1;
+
+option go_package = "github.com/XoxxxoL-CW/drive-country-proto/gen/go/drivecountry/v1;drivecountryv1";
+
+// HouseService owns the house-purchase domain: state buys (player ↔ NPC),
+// state sells (player → NPC at 55% price) and peer-to-peer deals between
+// players. Deals follow a PENDING → COMPLETED/CANCELLED/EXPIRED state
+// machine. Stale PENDING deals are auto-expired by a separate daemon
+// (cmd/house-deal-expirer) so a bot restart doesn't strand them.
+service HouseService {
+  rpc ListDistrictHouses(ListDistrictHousesRequest) returns (ListDistrictHousesResponse);
+  rpc GetHouseInfo(GetHouseInfoRequest) returns (GetHouseInfoResponse);
+  rpc GetHouse(GetHouseRequest) returns (GetHouseResponse);
+  rpc BuyHouse(BuyHouseRequest) returns (BuyHouseResponse);
+  rpc StartSellHouseGos(StartSellHouseGosRequest) returns (StartSellHouseGosResponse);
+  rpc AcceptSellHouseGos(AcceptSellHouseGosRequest) returns (AcceptSellHouseGosResponse);
+  rpc ValidateBuyer(ValidateBuyerRequest) returns (ValidateBuyerResponse);
+  rpc PreviewDeal(PreviewDealRequest) returns (PreviewDealResponse);
+  rpc GenerateDeal(GenerateDealRequest) returns (GenerateDealResponse);
+  // SetDealBuyerMessage backfills the buyer's chat_id + message_id onto an
+  // existing deal row. Needed because the offer keyboard embeds dealID, so
+  // GenerateDeal has to run first and only then can the bot send the photo
+  // and learn the message_id. Daemon needs both fields to clean up the
+  // offer message on expiry.
+  rpc SetDealBuyerMessage(SetDealBuyerMessageRequest) returns (SetDealBuyerMessageResponse);
+  rpc GetDeal(GetDealRequest) returns (GetDealResponse);
+  rpc ExpireDeal(ExpireDealRequest) returns (ExpireDealResponse);
+  rpc CancelDeal(CancelDealRequest) returns (CancelDealResponse);
+  rpc AcceptDealAsBuyer(AcceptDealAsBuyerRequest) returns (AcceptDealAsBuyerResponse);
+}
+
+// House is the row a client renders when showing district listings or a
+// single card. Owner is 0 when the house is unowned.
+message House {
+  int32 id = 1;
+  int32 district_id = 2;
+  string coordinates = 3;
+  string image = 4;
+  int64 owner = 5;
+  int32 price = 6;
+  int32 car_count = 7;
+}
+
+// HouseDeal mirrors the house_deal row. status is one of
+// PENDING / COMPLETED / CANCELLED / EXPIRED — kept as string to match the
+// schema enum and avoid duplicating the values in proto.
+message HouseDeal {
+  int32 id = 1;
+  int64 seller_id = 2;
+  int64 buyer_id = 3;
+  int32 price = 4;
+  int32 house_id = 5;
+  string deal_date_iso = 6;
+  string status = 7;
+}
+
+// HouseForSell is the seller-facing preview of a P2P offer. deal_id is set
+// only after GenerateDeal persists the row.
+message HouseForSell {
+  int32 id = 1;
+  int32 deal_id = 2;
+  string image = 3;
+  int32 price = 4;
+  int32 car_count = 5;
+  string seller_nickname = 6;
+  string buyer_nickname = 7;
+  int64 seller_id = 8;
+  int64 buyer_id = 9;
+}
+
+message ListDistrictHousesRequest {
+  int64 user_id = 1;
+  // district_id is optional — pass 0 to default to the user's current
+  // position. Server validates user is currently in this district either
+  // way to prevent cross-district scouting via stale callbacks.
+  int32 district_id = 2;
+  int32 page = 3;
+  int32 page_size = 4;
+}
+
+message ListDistrictHousesResponse {
+  int32 district_id = 1;
+  int32 page = 2;
+  int32 total_pages = 3;
+  repeated House houses = 4;
+}
+
+message GetHouseInfoRequest {
+  int64 user_id = 1;
+  int32 house_id = 2;
+}
+message GetHouseInfoResponse { House house = 1; }
+
+message GetHouseRequest { int32 house_id = 1; }
+message GetHouseResponse { House house = 1; }
+
+message BuyHouseRequest {
+  int64 user_id = 1;
+  int32 house_id = 2;
+}
+message BuyHouseResponse {}
+
+message StartSellHouseGosRequest {
+  int64 user_id = 1;
+  int32 house_id = 2;
+}
+message StartSellHouseGosResponse {
+  // Server returns the raw payout figure (55% of price); client formats.
+  double price = 1;
+}
+
+message AcceptSellHouseGosRequest {
+  int64 user_id = 1;
+  int32 house_id = 2;
+}
+message AcceptSellHouseGosResponse {}
+
+message ValidateBuyerRequest { int64 buyer_id = 1; }
+message ValidateBuyerResponse {}
+
+message PreviewDealRequest {
+  int64 seller_id = 1;
+  int32 house_id = 2;
+  int32 price = 3;
+  int64 buyer_id = 4;
+}
+message PreviewDealResponse { HouseForSell preview = 1; }
+
+message GenerateDealRequest {
+  int64 seller_id = 1;
+  int32 house_id = 2;
+  int32 price = 3;
+  int64 buyer_id = 4;
+  // Optional telegram message + chat the buyer received the offer in. Used
+  // by the expirer daemon to delete that message when the deal times out.
+  // Pass 0 if the caller doesn't have them yet (and will fill them via
+  // a future RPC).
+  int32 buyer_message_id = 5;
+  int64 buyer_chat_id = 6;
+}
+message GenerateDealResponse { HouseForSell deal = 1; }
+
+message SetDealBuyerMessageRequest {
+  int32 deal_id = 1;
+  int32 buyer_message_id = 2;
+  int64 buyer_chat_id = 3;
+}
+message SetDealBuyerMessageResponse {}
+
+message GetDealRequest { int32 deal_id = 1; }
+message GetDealResponse { HouseDeal deal = 1; }
+
+message ExpireDealRequest { int32 deal_id = 1; }
+message ExpireDealResponse { HouseDeal deal = 1; }
+
+message CancelDealRequest { int32 deal_id = 1; }
+message CancelDealResponse { HouseDeal deal = 1; }
+
+message AcceptDealAsBuyerRequest { int32 deal_id = 1; }
+message AcceptDealAsBuyerResponse { HouseDeal deal = 1; }
