@@ -1,0 +1,137 @@
+syntax = "proto3";
+
+package drivecountry.v1;
+
+option go_package = "github.com/XoxxxoL-CW/drive-country-proto/gen/go/drivecountry/v1;drivecountryv1";
+
+// MapaService owns player movement around the static game map: who's
+// where, what positions exist, what transports they can use, how much
+// each move costs and the actual energy/money/fuel deduction. Image
+// rendering of the map itself stays on the client (gogame) — server
+// returns coordinates and state, client paints.
+//
+// Cost / can-move logic lives entirely server-side: ChoiceMoveTransport
+// hands back a flat list of TransportOptions with already-computed
+// numbers so the bot just renders buttons. MoveToPosition recomputes
+// in a single transaction with the live user state and either deducts
+// resources + flips in_motion=true, or rejects with a precondition.
+service MapaService {
+  rpc GetMap(GetMapRequest) returns (GetMapResponse);
+  rpc ChoicePosition(ChoicePositionRequest) returns (ChoicePositionResponse);
+  rpc ChoiceMoveTransport(ChoiceMoveTransportRequest) returns (ChoiceMoveTransportResponse);
+  rpc MoveToPosition(MoveToPositionRequest) returns (MoveToPositionResponse);
+  rpc FinishMove(FinishMoveRequest) returns (FinishMoveResponse);
+  rpc GetPosition(GetPositionRequest) returns (GetPositionResponse);
+  rpc GetUserMoveContext(GetUserMoveContextRequest) returns (GetUserMoveContextResponse);
+}
+
+message PositionType {
+  int32 id = 1;
+  string name = 2;
+}
+
+message Position {
+  int32 id = 1;
+  string name = 2;
+  int32 user_lvl = 3;
+  string coordinates = 4;
+}
+
+// MoveCost is the resource breakdown for one move. Money is int because
+// the schema column is INTEGER; everything else stays float to preserve
+// foot's partial-energy decimal.
+message MoveCost {
+  double energy = 1;
+  int32 money = 2;
+  double fuel = 3;
+  int32 time_seconds = 4;
+}
+
+// TransportOption is one row in ChoiceMoveTransport's list, ready for
+// rendering as a button + cost line. transport_id matches
+// move_transport.id; 0 is reserved for the user's active car.
+message TransportOption {
+  int32 transport_id = 1;
+  string name = 2;
+  string smile = 3;
+  MoveCost cost = 4;
+  // base_cost ignores live energy — used by the UI to show "with full
+  // energy this move would cost X". Equal to cost when foot's
+  // partial-energy rule isn't engaged.
+  MoveCost base_cost = 5;
+  bool can_move = 6;
+}
+
+message GetMapRequest { int64 user_id = 1; }
+message GetMapResponse {
+  // Caller renders the map image locally with these fields.
+  int64 telegram_id = 1;
+  string position_coordinates = 2;
+  int32 users_count = 3;
+  repeated PositionType position_types = 4;
+}
+
+message ChoicePositionRequest {
+  int64 user_id = 1;
+  int32 position_type = 2;
+}
+message ChoicePositionResponse { repeated Position positions = 1; }
+
+message ChoiceMoveTransportRequest {
+  int64 user_id = 1;
+  int32 position_id = 2;
+}
+message ChoiceMoveTransportResponse {
+  int64 telegram_id = 1;
+  double energy = 2;
+  double money = 3;
+  double distance = 4;
+  string user_coordinates = 5;
+  string target_coordinates = 6;
+  int32 user_lvl = 7;
+  int32 users_count_at_user_position = 8;
+  repeated TransportOption options = 9;
+}
+
+message MoveToPositionRequest {
+  int64 user_id = 1;
+  int32 position_id = 2;
+  // 0 = user's active car; otherwise move_transport.id.
+  int32 transport_id = 3;
+}
+message MoveToPositionResponse {
+  string transport_name = 1;
+  string transport_smile = 2;
+  double distance = 3;
+  MoveCost cost = 4;
+  // Echo of the user state captured during the move so the gogame
+  // animation banner doesn't need a second round-trip.
+  int64 telegram_id = 5;
+  string user_coordinates = 6;
+  double energy = 7;
+  double money = 8;
+}
+
+message FinishMoveRequest {
+  int64 user_id = 1;
+  int32 position_id = 2;
+  int32 transport_id = 3;
+}
+message FinishMoveResponse {
+  int32 id = 1;
+  string name = 2;
+  bool has_actions = 3;
+  string intrance_text = 4;
+}
+
+message GetPositionRequest { int32 position_id = 1; }
+message GetPositionResponse { Position position = 1; }
+
+message GetUserMoveContextRequest { int64 user_id = 1; }
+message GetUserMoveContextResponse {
+  int64 telegram_id = 1;
+  int32 position_id = 2;
+  string coordinates = 3;
+  double energy = 4;
+  double money = 5;
+}
