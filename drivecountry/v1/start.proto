@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+package drivecountry.v1;
+
+option go_package = "github.com/XoxxxoL-CW/drive-country-proto/gen/go/drivecountry/v1;drivecountryv1";
+
+// StartService owns the user-onboarding side of the user table: registering a
+// new player, reading their profile data for the in-game profile card, and
+// caching the rendered profile image's metadata so future renders skip S3.
+//
+// Image rendering itself stays on the client side (gogame) — it depends on
+// fonts/assets/gg-graphics; DCL only stores the s3_key + telegram file_id
+// after the client uploads the rendered image.
+service StartService {
+  rpc Register(RegisterRequest) returns (RegisterResponse);
+  rpc GetUser(GetUserRequest) returns (GetUserResponse);
+  rpc FindProfileImage(FindProfileImageRequest) returns (FindProfileImageResponse);
+  rpc SaveProfileImage(SaveProfileImageRequest) returns (SaveProfileImageResponse);
+  rpc SaveProfileTelegramFile(SaveProfileTelegramFileRequest) returns (SaveProfileTelegramFileResponse);
+}
+
+// User is what GetUser/Register return — the fields the client needs to
+// render a profile card. Fields are NOT-NULL on the server side; clients
+// receive zero-values for nullable joins (car_image is empty when there's
+// no active finished car).
+message User {
+  int64 telegram_id = 1;
+  string nickname = 2;
+  int32 lvl = 3;
+  int64 exp = 4;
+  double money = 5;
+  double energy = 6;
+  int32 skin_id = 7;
+  string skin_s3_key = 8;
+  string position_image = 9;
+  bool has_actions = 10;
+  string car_image = 11;
+}
+
+// ProfileImageCache is the row stored in user_profile_images. telegram_file_*
+// stay empty until the bot uploads the bytes once and caches the file_id.
+message ProfileImageCache {
+  int64 user_id = 1;
+  string profile_hash = 2;
+  string s3_key = 3;
+  string telegram_file_id = 4;
+  string telegram_file_unique_id = 5;
+}
+
+message RegisterRequest {
+  int64 telegram_id = 1;
+  string username = 2;
+  string nickname = 3;
+  string first_name = 4;
+  string last_name = 5;
+  // gender must be "male" or "female"; controls the default skin picked at
+  // insert time. Anything else is rejected with InvalidArgument.
+  string gender = 6;
+}
+
+message RegisterResponse {
+  User user = 1;
+}
+
+message GetUserRequest {
+  int64 telegram_id = 1;
+}
+
+message GetUserResponse {
+  User user = 1;
+}
+
+message FindProfileImageRequest {
+  int64 user_id = 1;
+  string profile_hash = 2;
+}
+
+message FindProfileImageResponse {
+  ProfileImageCache cache = 1;
+}
+
+message SaveProfileImageRequest {
+  int64 user_id = 1;
+  string profile_hash = 2;
+  string s3_key = 3;
+}
+
+message SaveProfileImageResponse {}
+
+message SaveProfileTelegramFileRequest {
+  int64 user_id = 1;
+  string profile_hash = 2;
+  string telegram_file_id = 3;
+  string telegram_file_unique_id = 4;
+}
+
+message SaveProfileTelegramFileResponse {}
