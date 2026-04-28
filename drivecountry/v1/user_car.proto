@@ -1,0 +1,176 @@
+syntax = "proto3";
+
+package drivecountry.v1;
+
+option go_package = "github.com/XoxxxoL-CW/drive-country-proto/gen/go/drivecountry/v1;drivecountryv1";
+
+// UserCarService owns the per-player car catalogue: which cars they own,
+// which one is active, sell-to-state at 50% price, and P2P deals between
+// players. Stale PENDING car_deal rows get auto-expired by the
+// cmd/car-deal-expirer daemon — same pattern as house deals.
+service UserCarService {
+  rpc List(ListRequest) returns (ListResponse);
+  rpc Retrieve(RetrieveRequest) returns (RetrieveResponse);
+  rpc RetrieveWithOwnerCheck(RetrieveWithOwnerCheckRequest) returns (RetrieveWithOwnerCheckResponse);
+  rpc SetActive(SetActiveRequest) returns (SetActiveResponse);
+  rpc IsListedOnUsedMarket(IsListedOnUsedMarketRequest) returns (IsListedOnUsedMarketResponse);
+  rpc StartSellCarToState(StartSellCarToStateRequest) returns (StartSellCarToStateResponse);
+  rpc SellCarToState(SellCarToStateRequest) returns (SellCarToStateResponse);
+  rpc GenerateCarDealPreview(GenerateCarDealPreviewRequest) returns (GenerateCarDealPreviewResponse);
+  rpc CreateCarDeal(CreateCarDealRequest) returns (CreateCarDealResponse);
+  rpc SetCarDealBuyerMessage(SetCarDealBuyerMessageRequest) returns (SetCarDealBuyerMessageResponse);
+  rpc GetCarForSell(GetCarForSellRequest) returns (GetCarForSellResponse);
+  rpc AcceptCarDealAsBuyer(AcceptCarDealAsBuyerRequest) returns (AcceptCarDealAsBuyerResponse);
+  rpc CancelCarDeal(CancelCarDealRequest) returns (CancelCarDealResponse);
+  rpc ExpireCarDeal(ExpireCarDealRequest) returns (ExpireCarDealResponse);
+  // SaveCarTelegramFile + SaveGarageTelegramFile cache the telegram
+  // file_ids the bot earned by uploading from S3 the first time. Each
+  // future render reuses the cached id, sparing the S3 round-trip.
+  rpc SaveCarTelegramFile(SaveCarTelegramFileRequest) returns (SaveCarTelegramFileResponse);
+  rpc SaveGarageTelegramFile(SaveGarageTelegramFileRequest) returns (SaveGarageTelegramFileResponse);
+}
+
+// UserCar mirrors a car_user row joined with the car catalogue.
+message UserCar {
+  int32 id = 1;
+  int32 car_id = 2;
+  string image = 3;
+  string telegram_file_id = 4;
+  string telegram_file_unique_id = 5;
+  string garage_image = 6;
+  string garage_telegram_file_id = 7;
+  string garage_telegram_file_unique_id = 8;
+  string name = 9;
+  string number = 10;
+  bool finish = 11;
+  bool active = 12;
+}
+
+message UserCarWithPrice {
+  UserCar car = 1;
+  // Original price (from the car catalogue, not the user's purchase
+  // record). Drives the 50% state-buyout calculation.
+  int32 original_price = 2;
+}
+
+// CarDeal mirrors car_deal. Status: PENDING / COMPLETED / CANCELLED /
+// EXPIRED — same enum as the schema, exposed as plain string.
+message CarDeal {
+  int32 id = 1;
+  int64 seller_id = 2;
+  int64 buyer_id = 3;
+  int32 price = 4;
+  int32 car_user_id = 5;
+  int32 buyer_message_id = 6;
+  int64 buyer_chat_id = 7;
+  string deal_date_iso = 8;
+  string status = 9;
+}
+
+// CarForSell is the seller-facing preview before deal creation, plus the
+// shape the buyer sees when accepting an offer. type_id (1/2/3) and speed
+// stay on the wire so the gogame side can render emoji + speed bar
+// without a second round trip — service-side logic doesn't care about
+// presentation.
+message CarForSell {
+  int32 id = 1;
+  int32 deal_id = 2;
+  int32 car_user_id = 3;
+  string image = 4;
+  string telegram_file_id = 5;
+  string telegram_file_unique_id = 6;
+  string garage_image = 7;
+  string garage_telegram_file_id = 8;
+  string garage_telegram_file_unique_id = 9;
+  string name = 10;
+  string number = 11;
+  double fuel = 12;
+  int32 max_fuel = 13;
+  double consumption = 14;
+  int32 price = 15;
+  string seller_nickname = 16;
+  string buyer_nickname = 17;
+  int64 seller_id = 18;
+  int64 buyer_id = 19;
+  int32 type_id = 20;
+  double speed = 21;
+}
+
+message ListRequest { int64 user_id = 1; }
+message ListResponse { repeated UserCar cars = 1; }
+
+message RetrieveRequest { int32 user_car_id = 1; }
+message RetrieveResponse { UserCar car = 1; }
+
+message RetrieveWithOwnerCheckRequest { int32 user_car_id = 1; int64 owner_id = 2; }
+message RetrieveWithOwnerCheckResponse { UserCar car = 1; }
+
+message SetActiveRequest { int64 user_id = 1; int32 user_car_id = 2; }
+message SetActiveResponse {}
+
+message IsListedOnUsedMarketRequest { int32 user_car_id = 1; }
+message IsListedOnUsedMarketResponse { bool listed = 1; }
+
+message StartSellCarToStateRequest { int64 user_id = 1; int32 user_car_id = 2; }
+message StartSellCarToStateResponse {
+  UserCarWithPrice car = 1;
+  // sell_price = original_price * 0.5; surfaced as float so the client
+  // controls rounding for display.
+  double sell_price = 2;
+}
+
+message SellCarToStateRequest { int64 user_id = 1; int32 user_car_id = 2; }
+message SellCarToStateResponse {
+  // Final sell price the user was credited (rounded down to int by the
+  // service to match what the original gogame did).
+  int32 sell_price = 1;
+}
+
+message GenerateCarDealPreviewRequest {
+  int64 seller_id = 1;
+  int32 price = 2;
+  int64 buyer_id = 3;
+  int32 user_car_id = 4;
+}
+message GenerateCarDealPreviewResponse { CarForSell preview = 1; }
+
+message CreateCarDealRequest {
+  int64 seller_id = 1;
+  int32 price = 2;
+  int64 buyer_id = 3;
+  int32 user_car_id = 4;
+}
+message CreateCarDealResponse { CarDeal deal = 1; }
+
+message SetCarDealBuyerMessageRequest {
+  int32 deal_id = 1;
+  int32 buyer_message_id = 2;
+  int64 buyer_chat_id = 3;
+}
+message SetCarDealBuyerMessageResponse {}
+
+message GetCarForSellRequest { int32 deal_id = 1; }
+message GetCarForSellResponse { CarForSell car = 1; }
+
+message AcceptCarDealAsBuyerRequest { int32 deal_id = 1; }
+message AcceptCarDealAsBuyerResponse { CarDeal deal = 1; }
+
+message CancelCarDealRequest { int32 deal_id = 1; }
+message CancelCarDealResponse { CarDeal deal = 1; }
+
+message ExpireCarDealRequest { int32 deal_id = 1; }
+message ExpireCarDealResponse { CarDeal deal = 1; }
+
+message SaveCarTelegramFileRequest {
+  int32 user_car_id = 1;
+  string telegram_file_id = 2;
+  string telegram_file_unique_id = 3;
+}
+message SaveCarTelegramFileResponse {}
+
+message SaveGarageTelegramFileRequest {
+  int32 user_car_id = 1;
+  string telegram_file_id = 2;
+  string telegram_file_unique_id = 3;
+}
+message SaveGarageTelegramFileResponse {}

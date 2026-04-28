@@ -1,0 +1,110 @@
+syntax = "proto3";
+
+package drivecountry.v1;
+
+import "drivecountry/v1/user_car.proto";
+
+option go_package = "github.com/XoxxxoL-CW/drive-country-proto/gen/go/drivecountry/v1;drivecountryv1";
+
+// UsedCarMarketService owns the player-vs-player used-car listings: a
+// seller deactivates a car and creates an ACTIVE listing; any buyer
+// (other than the seller) can pick it up. Listings have no expiry timer
+// — they live until BuyListing or CancelListing flip the status.
+service UsedCarMarketService {
+  rpc ListAvailableCars(ListAvailableCarsRequest) returns (ListAvailableCarsResponse);
+  rpc CreateListing(CreateListingRequest) returns (CreateListingResponse);
+  rpc ListMyActiveListings(ListMyActiveListingsRequest) returns (ListMyActiveListingsResponse);
+  rpc ListMarketListings(ListMarketListingsRequest) returns (ListMarketListingsResponse);
+  rpc GetMyActiveListing(GetMyActiveListingRequest) returns (GetMyActiveListingResponse);
+  rpc GetListingDetails(GetListingDetailsRequest) returns (GetListingDetailsResponse);
+  rpc CancelListing(CancelListingRequest) returns (CancelListingResponse);
+  rpc GetCarForListing(GetCarForListingRequest) returns (GetCarForListingResponse);
+  rpc BuyListing(BuyListingRequest) returns (BuyListingResponse);
+}
+
+// UsedCarListing mirrors a car_used_market row.
+message UsedCarListing {
+  int32 id = 1;
+  int32 car_user_id = 2;
+  int64 seller_id = 3;
+  int32 price = 4;
+  string status = 5;
+  string created_at_iso = 6;
+}
+
+// UsedCarListingWithCar adds the joined car/user fields the bot uses when
+// rendering listing tiles (image, name, number).
+message UsedCarListingWithCar {
+  UsedCarListing listing = 1;
+  string car_name = 2;
+  string car_number = 3;
+  string car_image = 4;
+  string telegram_file_id = 5;
+  string telegram_file_unique_id = 6;
+  string garage_car_image = 7;
+  string garage_telegram_file_id = 8;
+  string garage_telegram_file_unique_id = 9;
+}
+
+// UsedMarketListingDetails is the full payload for a single listing's
+// detail view: car specs (speed/consumption/max_fuel/type_id) plus
+// seller nickname.
+message UsedMarketListingDetails {
+  int32 listing_id = 1;
+  int32 car_user_id = 2;
+  int64 seller_id = 3;
+  string seller_nick = 4;
+  int32 price = 5;
+  string car_name = 6;
+  string car_number = 7;
+  string car_image = 8;
+  string telegram_file_id = 9;
+  string telegram_file_unique_id = 10;
+  string garage_car_image = 11;
+  string garage_telegram_file_id = 12;
+  string garage_telegram_file_unique_id = 13;
+  double consumption = 14;
+  int32 max_fuel = 15;
+  double speed = 16;
+  int32 type_id = 17;
+}
+
+message ListAvailableCarsRequest { int64 user_id = 1; }
+
+// Reuses UserCar from user_car.proto via the same proto package.
+message ListAvailableCarsResponse { repeated UserCar cars = 1; }
+
+message CreateListingRequest {
+  int64 user_id = 1;
+  int32 user_car_id = 2;
+  int32 price = 3;
+}
+message CreateListingResponse { UsedCarListing listing = 1; }
+
+message ListMyActiveListingsRequest { int64 user_id = 1; }
+message ListMyActiveListingsResponse { repeated UsedCarListingWithCar listings = 1; }
+
+message ListMarketListingsRequest {
+  int64 user_id = 1;
+  int32 limit = 2;
+  int32 offset = 3;
+}
+message ListMarketListingsResponse {
+  repeated UsedCarListingWithCar listings = 1;
+  bool has_more = 2;
+}
+
+message GetMyActiveListingRequest { int64 user_id = 1; int32 listing_id = 2; }
+message GetMyActiveListingResponse { UsedCarListingWithCar listing = 1; }
+
+message GetListingDetailsRequest { int32 listing_id = 1; }
+message GetListingDetailsResponse { UsedMarketListingDetails details = 1; }
+
+message CancelListingRequest { int64 user_id = 1; int32 listing_id = 2; }
+message CancelListingResponse {}
+
+message GetCarForListingRequest { int64 user_id = 1; int32 user_car_id = 2; }
+message GetCarForListingResponse { UserCar car = 1; }
+
+message BuyListingRequest { int64 buyer_id = 1; int32 listing_id = 2; }
+message BuyListingResponse { UsedMarketListingDetails details = 1; }
