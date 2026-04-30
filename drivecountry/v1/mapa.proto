@@ -23,6 +23,9 @@ service MapaService {
   rpc FinishMove(FinishMoveRequest) returns (FinishMoveResponse);
   rpc GetPosition(GetPositionRequest) returns (GetPositionResponse);
   rpc GetUserMoveContext(GetUserMoveContextRequest) returns (GetUserMoveContextResponse);
+  // IsInMotion lets the bot's middleware gate handlers while a player
+  // is mid-transition. Hot path — called on every Telegram update.
+  rpc IsInMotion(IsInMotionRequest) returns (IsInMotionResponse);
 }
 
 message PositionType {
@@ -135,3 +138,6 @@ message GetUserMoveContextResponse {
   double energy = 4;
   double money = 5;
 }
+
+message IsInMotionRequest { int64 user_id = 1; }
+message IsInMotionResponse { bool in_motion = 1; }

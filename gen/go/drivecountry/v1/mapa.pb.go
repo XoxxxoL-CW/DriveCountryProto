@@ -1170,6 +1170,94 @@ func (x *GetUserMoveContextResponse) GetMoney() float64 {
 	return 0
 }
 
+type IsInMotionRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *IsInMotionRequest) Reset() {
+	*x = IsInMotionRequest{}
+	mi := &file_drivecountry_v1_mapa_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *IsInMotionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*IsInMotionRequest) ProtoMessage() {}
+
+func (x *IsInMotionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_drivecountry_v1_mapa_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use IsInMotionRequest.ProtoReflect.Descriptor instead.
+func (*IsInMotionRequest) Descriptor() ([]byte, []int) {
+	return file_drivecountry_v1_mapa_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *IsInMotionRequest) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+type IsInMotionResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	InMotion      bool                   `protobuf:"varint,1,opt,name=in_motion,json=inMotion,proto3" json:"in_motion,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *IsInMotionResponse) Reset() {
+	*x = IsInMotionResponse{}
+	mi := &file_drivecountry_v1_mapa_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *IsInMotionResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*IsInMotionResponse) ProtoMessage() {}
+
+func (x *IsInMotionResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_drivecountry_v1_mapa_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use IsInMotionResponse.ProtoReflect.Descriptor instead.
+func (*IsInMotionResponse) Descriptor() ([]byte, []int) {
+	return file_drivecountry_v1_mapa_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *IsInMotionResponse) GetInMotion() bool {
+	if x != nil {
+		return x.InMotion
+	}
+	return false
+}
+
 var File_drivecountry_v1_mapa_proto protoreflect.FileDescriptor
 
 const file_drivecountry_v1_mapa_proto_rawDesc = "" +
@@ -1264,7 +1352,11 @@ const file_drivecountry_v1_mapa_proto_rawDesc = "" +
 	"positionId\x12 \n" +
 	"\vcoordinates\x18\x03 \x01(\tR\vcoordinates\x12\x16\n" +
 	"\x06energy\x18\x04 \x01(\x01R\x06energy\x12\x14\n" +
-	"\x05money\x18\x05 \x01(\x01R\x05money2\xb0\x05\n" +
+	"\x05money\x18\x05 \x01(\x01R\x05money\",\n" +
+	"\x11IsInMotionRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\"1\n" +
+	"\x12IsInMotionResponse\x12\x1b\n" +
+	"\tin_motion\x18\x01 \x01(\bR\binMotion2\x87\x06\n" +
 	"\vMapaService\x12I\n" +
 	"\x06GetMap\x12\x1e.drivecountry.v1.GetMapRequest\x1a\x1f.drivecountry.v1.GetMapResponse\x12a\n" +
 	"\x0eChoicePosition\x12&.drivecountry.v1.ChoicePositionRequest\x1a'.drivecountry.v1.ChoicePositionResponse\x12p\n" +
@@ -1273,7 +1365,9 @@ const file_drivecountry_v1_mapa_proto_rawDesc = "" +
 	"\n" +
 	"FinishMove\x12\".drivecountry.v1.FinishMoveRequest\x1a#.drivecountry.v1.FinishMoveResponse\x12X\n" +
 	"\vGetPosition\x12#.drivecountry.v1.GetPositionRequest\x1a$.drivecountry.v1.GetPositionResponse\x12m\n" +
-	"\x12GetUserMoveContext\x12*.drivecountry.v1.GetUserMoveContextRequest\x1a+.drivecountry.v1.GetUserMoveContextResponseBQZOgithub.com/XoxxxoL-CW/drive-country-proto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
+	"\x12GetUserMoveContext\x12*.drivecountry.v1.GetUserMoveContextRequest\x1a+.drivecountry.v1.GetUserMoveContextResponse\x12U\n" +
+	"\n" +
+	"IsInMotion\x12\".drivecountry.v1.IsInMotionRequest\x1a#.drivecountry.v1.IsInMotionResponseBQZOgithub.com/XoxxxoL-CW/drive-country-proto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
 
 var (
 	file_drivecountry_v1_mapa_proto_rawDescOnce sync.Once
@@ -1287,7 +1381,7 @@ func file_drivecountry_v1_mapa_proto_rawDescGZIP() []byte {
 	return file_drivecountry_v1_mapa_proto_rawDescData
 }
 
-var file_drivecountry_v1_mapa_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
+var file_drivecountry_v1_mapa_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
 var file_drivecountry_v1_mapa_proto_goTypes = []any{
 	(*PositionType)(nil),                // 0: drivecountry.v1.PositionType
 	(*Position)(nil),                    // 1: drivecountry.v1.Position
@@ -1307,6 +1401,8 @@ var file_drivecountry_v1_mapa_proto_goTypes = []any{
 	(*GetPositionResponse)(nil),         // 15: drivecountry.v1.GetPositionResponse
 	(*GetUserMoveContextRequest)(nil),   // 16: drivecountry.v1.GetUserMoveContextRequest
 	(*GetUserMoveContextResponse)(nil),  // 17: drivecountry.v1.GetUserMoveContextResponse
+	(*IsInMotionRequest)(nil),           // 18: drivecountry.v1.IsInMotionRequest
+	(*IsInMotionResponse)(nil),          // 19: drivecountry.v1.IsInMotionResponse
 }
 var file_drivecountry_v1_mapa_proto_depIdxs = []int32{
 	2,  // 0: drivecountry.v1.TransportOption.cost:type_name -> drivecountry.v1.MoveCost
@@ -1323,15 +1419,17 @@ var file_drivecountry_v1_mapa_proto_depIdxs = []int32{
 	12, // 11: drivecountry.v1.MapaService.FinishMove:input_type -> drivecountry.v1.FinishMoveRequest
 	14, // 12: drivecountry.v1.MapaService.GetPosition:input_type -> drivecountry.v1.GetPositionRequest
 	16, // 13: drivecountry.v1.MapaService.GetUserMoveContext:input_type -> drivecountry.v1.GetUserMoveContextRequest
-	5,  // 14: drivecountry.v1.MapaService.GetMap:output_type -> drivecountry.v1.GetMapResponse
-	7,  // 15: drivecountry.v1.MapaService.ChoicePosition:output_type -> drivecountry.v1.ChoicePositionResponse
-	9,  // 16: drivecountry.v1.MapaService.ChoiceMoveTransport:output_type -> drivecountry.v1.ChoiceMoveTransportResponse
-	11, // 17: drivecountry.v1.MapaService.MoveToPosition:output_type -> drivecountry.v1.MoveToPositionResponse
-	13, // 18: drivecountry.v1.MapaService.FinishMove:output_type -> drivecountry.v1.FinishMoveResponse
-	15, // 19: drivecountry.v1.MapaService.GetPosition:output_type -> drivecountry.v1.GetPositionResponse
-	17, // 20: drivecountry.v1.MapaService.GetUserMoveContext:output_type -> drivecountry.v1.GetUserMoveContextResponse
-	14, // [14:21] is the sub-list for method output_type
-	7,  // [7:14] is the sub-list for method input_type
+	18, // 14: drivecountry.v1.MapaService.IsInMotion:input_type -> drivecountry.v1.IsInMotionRequest
+	5,  // 15: drivecountry.v1.MapaService.GetMap:output_type -> drivecountry.v1.GetMapResponse
+	7,  // 16: drivecountry.v1.MapaService.ChoicePosition:output_type -> drivecountry.v1.ChoicePositionResponse
+	9,  // 17: drivecountry.v1.MapaService.ChoiceMoveTransport:output_type -> drivecountry.v1.ChoiceMoveTransportResponse
+	11, // 18: drivecountry.v1.MapaService.MoveToPosition:output_type -> drivecountry.v1.MoveToPositionResponse
+	13, // 19: drivecountry.v1.MapaService.FinishMove:output_type -> drivecountry.v1.FinishMoveResponse
+	15, // 20: drivecountry.v1.MapaService.GetPosition:output_type -> drivecountry.v1.GetPositionResponse
+	17, // 21: drivecountry.v1.MapaService.GetUserMoveContext:output_type -> drivecountry.v1.GetUserMoveContextResponse
+	19, // 22: drivecountry.v1.MapaService.IsInMotion:output_type -> drivecountry.v1.IsInMotionResponse
+	15, // [15:23] is the sub-list for method output_type
+	7,  // [7:15] is the sub-list for method input_type
 	7,  // [7:7] is the sub-list for extension type_name
 	7,  // [7:7] is the sub-list for extension extendee
 	0,  // [0:7] is the sub-list for field type_name
@@ -1348,7 +1446,7 @@ func file_drivecountry_v1_mapa_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_drivecountry_v1_mapa_proto_rawDesc), len(file_drivecountry_v1_mapa_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   18,
+			NumMessages:   20,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

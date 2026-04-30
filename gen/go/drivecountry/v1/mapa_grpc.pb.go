@@ -26,6 +26,7 @@ const (
 	MapaService_FinishMove_FullMethodName          = "/drivecountry.v1.MapaService/FinishMove"
 	MapaService_GetPosition_FullMethodName         = "/drivecountry.v1.MapaService/GetPosition"
 	MapaService_GetUserMoveContext_FullMethodName  = "/drivecountry.v1.MapaService/GetUserMoveContext"
+	MapaService_IsInMotion_FullMethodName          = "/drivecountry.v1.MapaService/IsInMotion"
 )
 
 // MapaServiceClient is the client API for MapaService service.
@@ -51,6 +52,9 @@ type MapaServiceClient interface {
 	FinishMove(ctx context.Context, in *FinishMoveRequest, opts ...grpc.CallOption) (*FinishMoveResponse, error)
 	GetPosition(ctx context.Context, in *GetPositionRequest, opts ...grpc.CallOption) (*GetPositionResponse, error)
 	GetUserMoveContext(ctx context.Context, in *GetUserMoveContextRequest, opts ...grpc.CallOption) (*GetUserMoveContextResponse, error)
+	// IsInMotion lets the bot's middleware gate handlers while a player
+	// is mid-transition. Hot path — called on every Telegram update.
+	IsInMotion(ctx context.Context, in *IsInMotionRequest, opts ...grpc.CallOption) (*IsInMotionResponse, error)
 }
 
 type mapaServiceClient struct {
@@ -131,6 +135,16 @@ func (c *mapaServiceClient) GetUserMoveContext(ctx context.Context, in *GetUserM
 	return out, nil
 }
 
+func (c *mapaServiceClient) IsInMotion(ctx context.Context, in *IsInMotionRequest, opts ...grpc.CallOption) (*IsInMotionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(IsInMotionResponse)
+	err := c.cc.Invoke(ctx, MapaService_IsInMotion_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MapaServiceServer is the server API for MapaService service.
 // All implementations must embed UnimplementedMapaServiceServer
 // for forward compatibility.
@@ -154,6 +168,9 @@ type MapaServiceServer interface {
 	FinishMove(context.Context, *FinishMoveRequest) (*FinishMoveResponse, error)
 	GetPosition(context.Context, *GetPositionRequest) (*GetPositionResponse, error)
 	GetUserMoveContext(context.Context, *GetUserMoveContextRequest) (*GetUserMoveContextResponse, error)
+	// IsInMotion lets the bot's middleware gate handlers while a player
+	// is mid-transition. Hot path — called on every Telegram update.
+	IsInMotion(context.Context, *IsInMotionRequest) (*IsInMotionResponse, error)
 	mustEmbedUnimplementedMapaServiceServer()
 }
 
@@ -184,6 +201,9 @@ func (UnimplementedMapaServiceServer) GetPosition(context.Context, *GetPositionR
 }
 func (UnimplementedMapaServiceServer) GetUserMoveContext(context.Context, *GetUserMoveContextRequest) (*GetUserMoveContextResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetUserMoveContext not implemented")
+}
+func (UnimplementedMapaServiceServer) IsInMotion(context.Context, *IsInMotionRequest) (*IsInMotionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method IsInMotion not implemented")
 }
 func (UnimplementedMapaServiceServer) mustEmbedUnimplementedMapaServiceServer() {}
 func (UnimplementedMapaServiceServer) testEmbeddedByValue()                     {}
@@ -332,6 +352,24 @@ func _MapaService_GetUserMoveContext_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MapaService_IsInMotion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IsInMotionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MapaServiceServer).IsInMotion(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MapaService_IsInMotion_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MapaServiceServer).IsInMotion(ctx, req.(*IsInMotionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MapaService_ServiceDesc is the grpc.ServiceDesc for MapaService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -366,6 +404,10 @@ var MapaService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserMoveContext",
 			Handler:    _MapaService_GetUserMoveContext_Handler,
+		},
+		{
+			MethodName: "IsInMotion",
+			Handler:    _MapaService_IsInMotion_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

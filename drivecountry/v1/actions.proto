@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package drivecountry.v1;
+
+option go_package = "github.com/XoxxxoL-CW/drive-country-proto/gen/go/drivecountry/v1;drivecountryv1";
+
+// ActionsService exposes the position-bound action menu shown by the
+// "🔥 Действия" button in the bot. Single RPC on purpose: the server
+// already knows which position the user stands on and at what level,
+// so it returns the filtered action list in one round-trip instead of
+// the bot doing user→position→level→list lookups separately.
+//
+// The position_action table is read-only data — seeded by migrations,
+// no write paths.
+service ActionsService {
+  rpc ListAvailableActions(ListAvailableActionsRequest)
+      returns (ListAvailableActionsResponse);
+}
+
+message ListAvailableActionsRequest { int64 user_id = 1; }
+
+message ListAvailableActionsResponse { repeated Action actions = 1; }
+
+message Action {
+  int32 id = 1;
+  string name = 2;
+  // data is the callback payload / inline-query suffix / web URL,
+  // depending on type. The bot dispatches on `type` to wire it into
+  // the right Telegram inline button shape.
+  string data = 3;
+  // type discriminator: "default" | "inline" | "web". Kept as a free
+  // string (matches DB column position_action.action_type) — proto
+  // enum would force schema changes for new UI styles without giving
+  // any real type-safety on the bot side.
+  string type = 4;
+  int32 position_id = 5;
+}
