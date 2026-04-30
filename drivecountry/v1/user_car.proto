@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package drivecountry.v1;
 
-option go_package = "github.com/XoxxxoL-CW/drive-country-proto/gen/go/drivecountry/v1;drivecountryv1";
+option go_package = "github.com/XoxxxoL-CW/DriveCountryProto/gen/go/drivecountry/v1;drivecountryv1";
 
 // UserCarService owns the per-player car catalogue: which cars they own,
 // which one is active, sell-to-state at 50% price, and P2P deals between

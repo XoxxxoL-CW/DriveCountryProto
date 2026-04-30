@@ -643,7 +643,7 @@ const file_drivecountry_v1_inventory_proto_rawDesc = "" +
 	"\bGetItems\x12 .drivecountry.v1.GetItemsRequest\x1a!.drivecountry.v1.GetItemsResponse\x12L\n" +
 	"\aGetItem\x12\x1f.drivecountry.v1.GetItemRequest\x1a .drivecountry.v1.GetItemResponse\x12@\n" +
 	"\x03Eat\x12\x1b.drivecountry.v1.EatRequest\x1a\x1c.drivecountry.v1.EatResponse\x12s\n" +
-	"\x14SaveItemTelegramFile\x12,.drivecountry.v1.SaveItemTelegramFileRequest\x1a-.drivecountry.v1.SaveItemTelegramFileResponseBQZOgithub.com/XoxxxoL-CW/drive-country-proto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
+	"\x14SaveItemTelegramFile\x12,.drivecountry.v1.SaveItemTelegramFileRequest\x1a-.drivecountry.v1.SaveItemTelegramFileResponseBOZMgithub.com/XoxxxoL-CW/DriveCountryProto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
 
 var (
 	file_drivecountry_v1_inventory_proto_rawDescOnce sync.Once

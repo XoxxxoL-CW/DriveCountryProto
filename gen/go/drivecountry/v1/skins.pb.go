@@ -627,7 +627,7 @@ const file_drivecountry_v1_skins_proto_rawDesc = "" +
 	"\aGetSkin\x12\x1f.drivecountry.v1.GetSkinRequest\x1a .drivecountry.v1.GetSkinResponse\x12a\n" +
 	"\x0eGetSkinForUser\x12&.drivecountry.v1.GetSkinForUserRequest\x1a'.drivecountry.v1.GetSkinForUserResponse\x12L\n" +
 	"\aBuySkin\x12\x1f.drivecountry.v1.BuySkinRequest\x1a .drivecountry.v1.BuySkinResponse\x12s\n" +
-	"\x14SaveSkinTelegramFile\x12,.drivecountry.v1.SaveSkinTelegramFileRequest\x1a-.drivecountry.v1.SaveSkinTelegramFileResponseBQZOgithub.com/XoxxxoL-CW/drive-country-proto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
+	"\x14SaveSkinTelegramFile\x12,.drivecountry.v1.SaveSkinTelegramFileRequest\x1a-.drivecountry.v1.SaveSkinTelegramFileResponseBOZMgithub.com/XoxxxoL-CW/DriveCountryProto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
 
 var (
 	file_drivecountry_v1_skins_proto_rawDescOnce sync.Once

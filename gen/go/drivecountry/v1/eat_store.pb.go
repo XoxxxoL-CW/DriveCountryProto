@@ -424,7 +424,7 @@ const file_drivecountry_v1_eat_store_proto_rawDesc = "" +
 	"\x0fEatStoreService\x12O\n" +
 	"\bShowMenu\x12 .drivecountry.v1.ShowMenuRequest\x1a!.drivecountry.v1.ShowMenuResponse\x12O\n" +
 	"\bShowItem\x12 .drivecountry.v1.ShowItemRequest\x1a!.drivecountry.v1.ShowItemResponse\x12L\n" +
-	"\aBuyItem\x12\x1f.drivecountry.v1.BuyItemRequest\x1a .drivecountry.v1.BuyItemResponseBQZOgithub.com/XoxxxoL-CW/drive-country-proto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
+	"\aBuyItem\x12\x1f.drivecountry.v1.BuyItemRequest\x1a .drivecountry.v1.BuyItemResponseBOZMgithub.com/XoxxxoL-CW/DriveCountryProto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
 
 var (
 	file_drivecountry_v1_eat_store_proto_rawDescOnce sync.Once

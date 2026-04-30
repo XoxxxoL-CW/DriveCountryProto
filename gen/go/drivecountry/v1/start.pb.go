@@ -804,7 +804,7 @@ const file_drivecountry_v1_start_proto_rawDesc = "" +
 	"\aGetUser\x12\x1f.drivecountry.v1.GetUserRequest\x1a .drivecountry.v1.GetUserResponse\x12g\n" +
 	"\x10FindProfileImage\x12(.drivecountry.v1.FindProfileImageRequest\x1a).drivecountry.v1.FindProfileImageResponse\x12g\n" +
 	"\x10SaveProfileImage\x12(.drivecountry.v1.SaveProfileImageRequest\x1a).drivecountry.v1.SaveProfileImageResponse\x12|\n" +
-	"\x17SaveProfileTelegramFile\x12/.drivecountry.v1.SaveProfileTelegramFileRequest\x1a0.drivecountry.v1.SaveProfileTelegramFileResponseBQZOgithub.com/XoxxxoL-CW/drive-country-proto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
+	"\x17SaveProfileTelegramFile\x12/.drivecountry.v1.SaveProfileTelegramFileRequest\x1a0.drivecountry.v1.SaveProfileTelegramFileResponseBOZMgithub.com/XoxxxoL-CW/DriveCountryProto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
 
 var (
 	file_drivecountry_v1_start_proto_rawDescOnce sync.Once

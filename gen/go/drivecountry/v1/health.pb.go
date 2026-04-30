@@ -110,7 +110,7 @@ const file_drivecountry_v1_health_proto_rawDesc = "" +
 	"\fPingResponse\x12\x18\n" +
 	"\amessage\x18\x01 \x01(\tR\amessage2T\n" +
 	"\rHealthService\x12C\n" +
-	"\x04Ping\x12\x1c.drivecountry.v1.PingRequest\x1a\x1d.drivecountry.v1.PingResponseBQZOgithub.com/XoxxxoL-CW/drive-country-proto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
+	"\x04Ping\x12\x1c.drivecountry.v1.PingRequest\x1a\x1d.drivecountry.v1.PingResponseBOZMgithub.com/XoxxxoL-CW/DriveCountryProto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
 
 var (
 	file_drivecountry_v1_health_proto_rawDescOnce sync.Once

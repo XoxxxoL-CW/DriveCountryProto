@@ -222,7 +222,7 @@ const file_drivecountry_v1_house_utilities_proto_rawDesc = "" +
 	"\x14TopUpDepositResponse2\xc2\x01\n" +
 	"\x15HouseUtilitiesService\x12L\n" +
 	"\aPayDebt\x12\x1f.drivecountry.v1.PayDebtRequest\x1a .drivecountry.v1.PayDebtResponse\x12[\n" +
-	"\fTopUpDeposit\x12$.drivecountry.v1.TopUpDepositRequest\x1a%.drivecountry.v1.TopUpDepositResponseBQZOgithub.com/XoxxxoL-CW/drive-country-proto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
+	"\fTopUpDeposit\x12$.drivecountry.v1.TopUpDepositRequest\x1a%.drivecountry.v1.TopUpDepositResponseBOZMgithub.com/XoxxxoL-CW/DriveCountryProto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
 
 var (
 	file_drivecountry_v1_house_utilities_proto_rawDescOnce sync.Once

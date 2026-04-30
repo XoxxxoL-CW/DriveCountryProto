@@ -317,7 +317,7 @@ const file_drivecountry_v1_bank_proto_rawDesc = "" +
 	"\vBankService\x12R\n" +
 	"\tTopUpCash\x12!.drivecountry.v1.TopUpCashRequest\x1a\".drivecountry.v1.TopUpCashResponse\x12[\n" +
 	"\fWithdrawCash\x12$.drivecountry.v1.WithdrawCashRequest\x1a%.drivecountry.v1.WithdrawCashResponse\x12O\n" +
-	"\bTransfer\x12 .drivecountry.v1.TransferRequest\x1a!.drivecountry.v1.TransferResponseBQZOgithub.com/XoxxxoL-CW/drive-country-proto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
+	"\bTransfer\x12 .drivecountry.v1.TransferRequest\x1a!.drivecountry.v1.TransferResponseBOZMgithub.com/XoxxxoL-CW/DriveCountryProto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
 
 var (
 	file_drivecountry_v1_bank_proto_rawDescOnce sync.Once

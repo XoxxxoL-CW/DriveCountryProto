@@ -1812,7 +1812,7 @@ const file_drivecountry_v1_house_proto_rawDesc = "" +
 	"ExpireDeal\x12\".drivecountry.v1.ExpireDealRequest\x1a#.drivecountry.v1.ExpireDealResponse\x12U\n" +
 	"\n" +
 	"CancelDeal\x12\".drivecountry.v1.CancelDealRequest\x1a#.drivecountry.v1.CancelDealResponse\x12j\n" +
-	"\x11AcceptDealAsBuyer\x12).drivecountry.v1.AcceptDealAsBuyerRequest\x1a*.drivecountry.v1.AcceptDealAsBuyerResponseBQZOgithub.com/XoxxxoL-CW/drive-country-proto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
+	"\x11AcceptDealAsBuyer\x12).drivecountry.v1.AcceptDealAsBuyerRequest\x1a*.drivecountry.v1.AcceptDealAsBuyerResponseBOZMgithub.com/XoxxxoL-CW/DriveCountryProto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
 
 var (
 	file_drivecountry_v1_house_proto_rawDescOnce sync.Once

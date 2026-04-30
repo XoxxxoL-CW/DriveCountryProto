@@ -4,7 +4,7 @@ package drivecountry.v1;
 
 import "drivecountry/v1/user_car.proto";
 
-option go_package = "github.com/XoxxxoL-CW/drive-country-proto/gen/go/drivecountry/v1;drivecountryv1";
+option go_package = "github.com/XoxxxoL-CW/DriveCountryProto/gen/go/drivecountry/v1;drivecountryv1";
 
 // UsedCarMarketService owns the player-vs-player used-car listings: a
 // seller deactivates a car and creates an ACTIVE listing; any buyer

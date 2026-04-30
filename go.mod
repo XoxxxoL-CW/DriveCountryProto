@@ -1,4 +1,4 @@
-module github.com/XoxxxoL-CW/drive-country-proto
+module github.com/XoxxxoL-CW/DriveCountryProto
 
 go 1.25
 

@@ -644,7 +644,7 @@ const file_drivecountry_v1_gai_proto_rawDesc = "" +
 	"\x11CheckAvailability\x12).drivecountry.v1.CheckAvailabilityRequest\x1a*.drivecountry.v1.CheckAvailabilityResponse\x12a\n" +
 	"\x0eCalculatePrice\x12&.drivecountry.v1.CalculatePriceRequest\x1a'.drivecountry.v1.CalculatePriceResponse\x12p\n" +
 	"\x13ChoiceNumberReplace\x12+.drivecountry.v1.ChoiceNumberReplaceRequest\x1a,.drivecountry.v1.ChoiceNumberReplaceResponse\x12R\n" +
-	"\tBuyNumber\x12!.drivecountry.v1.BuyNumberRequest\x1a\".drivecountry.v1.BuyNumberResponseBQZOgithub.com/XoxxxoL-CW/drive-country-proto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
+	"\tBuyNumber\x12!.drivecountry.v1.BuyNumberRequest\x1a\".drivecountry.v1.BuyNumberResponseBOZMgithub.com/XoxxxoL-CW/DriveCountryProto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
 
 var (
 	file_drivecountry_v1_gai_proto_rawDescOnce sync.Once

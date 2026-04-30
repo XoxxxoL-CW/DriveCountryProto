@@ -1367,7 +1367,7 @@ const file_drivecountry_v1_mapa_proto_rawDesc = "" +
 	"\vGetPosition\x12#.drivecountry.v1.GetPositionRequest\x1a$.drivecountry.v1.GetPositionResponse\x12m\n" +
 	"\x12GetUserMoveContext\x12*.drivecountry.v1.GetUserMoveContextRequest\x1a+.drivecountry.v1.GetUserMoveContextResponse\x12U\n" +
 	"\n" +
-	"IsInMotion\x12\".drivecountry.v1.IsInMotionRequest\x1a#.drivecountry.v1.IsInMotionResponseBQZOgithub.com/XoxxxoL-CW/drive-country-proto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
+	"IsInMotion\x12\".drivecountry.v1.IsInMotionRequest\x1a#.drivecountry.v1.IsInMotionResponseBOZMgithub.com/XoxxxoL-CW/DriveCountryProto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
 
 var (
 	file_drivecountry_v1_mapa_proto_rawDescOnce sync.Once

@@ -2194,7 +2194,7 @@ const file_drivecountry_v1_user_car_proto_rawDesc = "" +
 	"\rCancelCarDeal\x12%.drivecountry.v1.CancelCarDealRequest\x1a&.drivecountry.v1.CancelCarDealResponse\x12^\n" +
 	"\rExpireCarDeal\x12%.drivecountry.v1.ExpireCarDealRequest\x1a&.drivecountry.v1.ExpireCarDealResponse\x12p\n" +
 	"\x13SaveCarTelegramFile\x12+.drivecountry.v1.SaveCarTelegramFileRequest\x1a,.drivecountry.v1.SaveCarTelegramFileResponse\x12y\n" +
-	"\x16SaveGarageTelegramFile\x12..drivecountry.v1.SaveGarageTelegramFileRequest\x1a/.drivecountry.v1.SaveGarageTelegramFileResponseBQZOgithub.com/XoxxxoL-CW/drive-country-proto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
+	"\x16SaveGarageTelegramFile\x12..drivecountry.v1.SaveGarageTelegramFileRequest\x1a/.drivecountry.v1.SaveGarageTelegramFileResponseBOZMgithub.com/XoxxxoL-CW/DriveCountryProto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
 
 var (
 	file_drivecountry_v1_user_car_proto_rawDescOnce sync.Once

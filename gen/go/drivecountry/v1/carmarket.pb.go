@@ -863,7 +863,7 @@ const file_drivecountry_v1_carmarket_proto_rawDesc = "" +
 	"\x0eChoiceCarColor\x12&.drivecountry.v1.ChoiceCarColorRequest\x1a'.drivecountry.v1.ChoiceCarColorResponse\x12[\n" +
 	"\fGetCarNumber\x12$.drivecountry.v1.GetCarNumberRequest\x1a%.drivecountry.v1.GetCarNumberResponse\x12I\n" +
 	"\x06BuyCar\x12\x1e.drivecountry.v1.BuyCarRequest\x1a\x1f.drivecountry.v1.BuyCarResponse\x12\x88\x01\n" +
-	"\x1bSaveCarTemplateTelegramFile\x123.drivecountry.v1.SaveCarTemplateTelegramFileRequest\x1a4.drivecountry.v1.SaveCarTemplateTelegramFileResponseBQZOgithub.com/XoxxxoL-CW/drive-country-proto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
+	"\x1bSaveCarTemplateTelegramFile\x123.drivecountry.v1.SaveCarTemplateTelegramFileRequest\x1a4.drivecountry.v1.SaveCarTemplateTelegramFileResponseBOZMgithub.com/XoxxxoL-CW/DriveCountryProto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
 
 var (
 	file_drivecountry_v1_carmarket_proto_rawDescOnce sync.Once

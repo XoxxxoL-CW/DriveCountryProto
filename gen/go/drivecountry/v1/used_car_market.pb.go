@@ -1351,7 +1351,7 @@ const file_drivecountry_v1_used_car_market_proto_rawDesc = "" +
 	"\rCancelListing\x12%.drivecountry.v1.CancelListingRequest\x1a&.drivecountry.v1.CancelListingResponse\x12g\n" +
 	"\x10GetCarForListing\x12(.drivecountry.v1.GetCarForListingRequest\x1a).drivecountry.v1.GetCarForListingResponse\x12U\n" +
 	"\n" +
-	"BuyListing\x12\".drivecountry.v1.BuyListingRequest\x1a#.drivecountry.v1.BuyListingResponseBQZOgithub.com/XoxxxoL-CW/drive-country-proto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
+	"BuyListing\x12\".drivecountry.v1.BuyListingRequest\x1a#.drivecountry.v1.BuyListingResponseBOZMgithub.com/XoxxxoL-CW/DriveCountryProto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
 
 var (
 	file_drivecountry_v1_used_car_market_proto_rawDescOnce sync.Once

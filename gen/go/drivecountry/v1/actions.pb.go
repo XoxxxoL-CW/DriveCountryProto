@@ -209,7 +209,7 @@ const file_drivecountry_v1_actions_proto_rawDesc = "" +
 	"\vposition_id\x18\x05 \x01(\x05R\n" +
 	"positionId2\x85\x01\n" +
 	"\x0eActionsService\x12s\n" +
-	"\x14ListAvailableActions\x12,.drivecountry.v1.ListAvailableActionsRequest\x1a-.drivecountry.v1.ListAvailableActionsResponseBQZOgithub.com/XoxxxoL-CW/drive-country-proto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
+	"\x14ListAvailableActions\x12,.drivecountry.v1.ListAvailableActionsRequest\x1a-.drivecountry.v1.ListAvailableActionsResponseBOZMgithub.com/XoxxxoL-CW/DriveCountryProto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
 
 var (
 	file_drivecountry_v1_actions_proto_rawDescOnce sync.Once
