@@ -1,0 +1,132 @@
+syntax = "proto3";
+
+package drivecountry.v1;
+
+option go_package = "github.com/XoxxxoL-CW/DriveCountryProto/gen/go/drivecountry/v1;drivecountryv1";
+
+// ShiftService owns the mini-game economy and shift lifecycle:
+// the energy/position gates, payout rates (HourlyRateByLevel family),
+// idempotent per-action payouts, finish/abort and leaderboards.
+//
+// The realtime simulation (physics, tick loop, WS transport) stays in
+// the web backend — it calls this service only at the money edges:
+// StartShift once, ApplyShiftAction per player action (idempotent by
+// action_id), FinishShift/AbortShift once.
+//
+// Error reasons (errdetails.ErrorInfo): invalid_input, unauthorized,
+// forbidden_position, insufficient_energy, shift_not_found.
+service ShiftService {
+  // StartShift validates the position/energy gate, consumes the shift
+  // energy (warehouse) or snapshots it (timber/garbage), creates the
+  // shift_run row and returns the authoritative payout prices for the
+  // runtime's UI offers.
+  rpc StartShift(StartShiftRequest) returns (StartShiftResponse);
+  // ApplyShiftAction applies one player action. Payouts are computed
+  // HERE from the shift's level_at_start — the caller never sends
+  // money amounts. Duplicate action_id → applied=false, no changes.
+  rpc ApplyShiftAction(ApplyShiftActionRequest) returns (ApplyShiftActionResponse);
+  // FinishShift closes the shift and upserts the daily leaderboard
+  // best (metric read from the shift row, not trusted from request).
+  rpc FinishShift(FinishShiftRequest) returns (FinishShiftResponse);
+  // AbortShift marks the shift aborted (created/running → aborted).
+  rpc AbortShift(AbortShiftRequest) returns (AbortShiftResponse);
+}
+
+enum ShiftGame {
+  SHIFT_GAME_UNSPECIFIED = 0;
+  SHIFT_GAME_WAREHOUSE = 1;
+  SHIFT_GAME_TIMBER = 2;
+  SHIFT_GAME_GARBAGE = 3;
+}
+
+message StartShiftRequest {
+  int64 user_id = 1;
+  ShiftGame game = 2;
+  int64 seed = 3;
+  int32 duration_ms = 4;
+  // Warehouse only: the map the shift runs on.
+  string map_id = 5;
+  string client_version = 6;
+  string server_build = 7;
+}
+
+message StartShiftResponse {
+  string shift_id = 1;
+  int32 level_at_start = 2;
+  double energy_start = 3;
+  // RFC3339Nano timestamp of the shift_run.started_at row.
+  string started_at_iso = 10;
+  // energy_after equals energy_start for timber/garbage (energy is
+  // spent per action) and energy_start minus the shift cost for
+  // warehouse.
+  double energy_after = 4;
+  // Authoritative payout prices at level_at_start, for UI offers:
+  // warehouse normal box (also timber hit / garbage correct sort
+  // price), rush success/fail (warehouse only).
+  double price_normal = 5;
+  double price_rush_success = 6;
+  double price_rush_failed = 7;
+}
+
+message ApplyShiftActionRequest {
+  string shift_id = 1;
+  int64 user_id = 2;
+  ShiftGame game = 3;
+  // Idempotency key: delivery_id (warehouse) / action_id
+  // (timber, garbage).
+  string action_id = 4;
+
+  // Warehouse delivery.
+  string box_type = 5; // "normal" | "rush"
+  bool rush_failed = 6;
+
+  // Timber hit.
+  bool timber_hit_success = 7;
+  // Separate payout idempotency for successful hits
+  // (timber_hit_payout.hit_id).
+  string timber_hit_id = 8;
+
+  // Garbage sort.
+  string garbage_item_id = 9;
+  string garbage_item_type = 10;
+  string garbage_correct_bin = 11;
+  string garbage_player_bin = 12;
+  // correct | wrong | missed | expired
+  string garbage_result = 13;
+  // Payout idempotency for correct sorts (garbage_sort_payout.payout_id).
+  string garbage_payout_id = 14;
+}
+
+message ApplyShiftActionResponse {
+  // applied=false: duplicate action_id — nothing changed.
+  bool applied = 1;
+  double energy_after = 2;
+  double money_delta = 3;
+  int64 exp_delta = 4;
+}
+
+message FinishShiftRequest {
+  string shift_id = 1;
+  int64 user_id = 2;
+  ShiftGame game = 3;
+  // Optional; now() when empty.
+  string ended_at_iso = 4;
+  // Timber/garbage only: time_over | energy | mistakes | aborted …
+  string finish_reason = 5;
+  // Timber/garbage only.
+  double energy_end = 6;
+  // Warehouse sim counters.
+  int32 orders_completed = 7;
+  int32 orders_failed = 8;
+  int32 collisions = 9;
+}
+
+message FinishShiftResponse {}
+
+message AbortShiftRequest {
+  string shift_id = 1;
+  int64 user_id = 2;
+  ShiftGame game = 3;
+}
+
+message AbortShiftResponse {}

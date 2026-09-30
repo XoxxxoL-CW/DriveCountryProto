@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package drivecountry.v1;
+
+option go_package = "github.com/XoxxxoL-CW/DriveCountryProto/gen/go/drivecountry/v1;drivecountryv1";
+
+// GasStationService owns the refueling domain end-to-end: station
+// display state, the refuel lifecycle (start → SSE progress →
+// complete/cancel) and the money/fuel writes. The web backend keeps
+// only the SSE transport; every rule (price per liter, tank capacity,
+// in_refuel flag) lives here, so the DB is written by exactly one
+// service.
+//
+// Error reasons (errdetails.ErrorInfo): car_not_found,
+// already_refueling, tank_overflow, invalid_liters, insufficient_funds.
+service GasStationService {
+  // GetStation returns the display state of the user's active car.
+  rpc GetStation(GetStationRequest) returns (GetStationResponse);
+  // StartRefuel validates tank capacity / funds / in_refuel flag and
+  // marks the user in_refuel. The caller streams progress via SSE and
+  // must call CompleteRefuel or CancelRefuel afterwards.
+  rpc StartRefuel(StartRefuelRequest) returns (StartRefuelResponse);
+  // CompleteRefuel charges the user and credits the fuel in one
+  // transaction. If funds dropped below the total cost mid-session,
+  // the flag is reset and nothing is charged (insufficient_funds).
+  rpc CompleteRefuel(CompleteRefuelRequest) returns (CompleteRefuelResponse);
+  // CancelRefuel resets the in_refuel flag without charging. Also
+  // heals a flag left behind by a crashed session.
+  rpc CancelRefuel(CancelRefuelRequest) returns (CancelRefuelResponse);
+}
+
+message GetStationRequest {
+  int64 user_id = 1;
+}
+
+message GetStationResponse {
+  string car_name = 1;
+  int32 fuel = 2;
+  int32 max_fuel = 3;
+  string nickname = 4;
+  double money = 5;
+  // Price per liter — the authoritative constant lives here, not in
+  // the web backend.
+  int64 price_per_liter = 6;
+}
+
+message StartRefuelRequest {
+  int64 user_id = 1;
+  int32 liters = 2;
+}
+
+message StartRefuelResponse {
+  int32 car_user_id = 1;
+  int32 fuel = 2;
+  int32 max_fuel = 3;
+  double money = 4;
+  int64 price_per_liter = 5;
+  double total_cost = 6;
+}
+
+message CompleteRefuelRequest {
+  int64 user_id = 1;
+  // car_user_id pins the session's car: the user could switch their
+  // active car while refueling; fuel is credited to the session car
+  // regardless.
+  int32 car_user_id = 2;
+  int32 liters = 3;
+}
+
+message CompleteRefuelResponse {
+  int32 fuel = 1;
+  double money = 2;
+}
+
+message CancelRefuelRequest {
+  int64 user_id = 1;
+}
+
+message CancelRefuelResponse {}

@@ -28,6 +28,12 @@ service UserCarService {
   // future render reuses the cached id, sparing the S3 round-trip.
   rpc SaveCarTelegramFile(SaveCarTelegramFileRequest) returns (SaveCarTelegramFileResponse);
   rpc SaveGarageTelegramFile(SaveGarageTelegramFileRequest) returns (SaveGarageTelegramFileResponse);
+  // ReportRenderComplete is called by the gogame render worker after
+  // it uploaded the rendered car images to S3. Marks the car_user row
+  // ready (finish = true) and stores the S3 keys — the only write path
+  // for render artifacts, replacing the worker's former direct DB
+  // access.
+  rpc ReportRenderComplete(ReportRenderCompleteRequest) returns (ReportRenderCompleteResponse);
 }
 
 // UserCar mirrors a car_user row joined with the car catalogue.
@@ -174,3 +180,15 @@ message SaveGarageTelegramFileRequest {
   string telegram_file_unique_id = 3;
 }
 message SaveGarageTelegramFileResponse {}
+
+message ReportRenderCompleteRequest {
+  // car_user_id — the row to mark ready.
+  int32 user_car_id = 1;
+  // owner_user_id must match car_user.owner_id: the worker proves it
+  // rendered for the right row (it receives the owner in the render
+  // event), a mismatch is treated as "car not found".
+  int64 owner_user_id = 2;
+  string s3_key = 3;
+  string garage_s3_key = 4;
+}
+message ReportRenderCompleteResponse {}

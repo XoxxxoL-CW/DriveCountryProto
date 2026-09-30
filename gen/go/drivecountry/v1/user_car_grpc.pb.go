@@ -35,6 +35,7 @@ const (
 	UserCarService_ExpireCarDeal_FullMethodName          = "/drivecountry.v1.UserCarService/ExpireCarDeal"
 	UserCarService_SaveCarTelegramFile_FullMethodName    = "/drivecountry.v1.UserCarService/SaveCarTelegramFile"
 	UserCarService_SaveGarageTelegramFile_FullMethodName = "/drivecountry.v1.UserCarService/SaveGarageTelegramFile"
+	UserCarService_ReportRenderComplete_FullMethodName   = "/drivecountry.v1.UserCarService/ReportRenderComplete"
 )
 
 // UserCarServiceClient is the client API for UserCarService service.
@@ -65,6 +66,12 @@ type UserCarServiceClient interface {
 	// future render reuses the cached id, sparing the S3 round-trip.
 	SaveCarTelegramFile(ctx context.Context, in *SaveCarTelegramFileRequest, opts ...grpc.CallOption) (*SaveCarTelegramFileResponse, error)
 	SaveGarageTelegramFile(ctx context.Context, in *SaveGarageTelegramFileRequest, opts ...grpc.CallOption) (*SaveGarageTelegramFileResponse, error)
+	// ReportRenderComplete is called by the gogame render worker after
+	// it uploaded the rendered car images to S3. Marks the car_user row
+	// ready (finish = true) and stores the S3 keys — the only write path
+	// for render artifacts, replacing the worker's former direct DB
+	// access.
+	ReportRenderComplete(ctx context.Context, in *ReportRenderCompleteRequest, opts ...grpc.CallOption) (*ReportRenderCompleteResponse, error)
 }
 
 type userCarServiceClient struct {
@@ -235,6 +242,16 @@ func (c *userCarServiceClient) SaveGarageTelegramFile(ctx context.Context, in *S
 	return out, nil
 }
 
+func (c *userCarServiceClient) ReportRenderComplete(ctx context.Context, in *ReportRenderCompleteRequest, opts ...grpc.CallOption) (*ReportRenderCompleteResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ReportRenderCompleteResponse)
+	err := c.cc.Invoke(ctx, UserCarService_ReportRenderComplete_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserCarServiceServer is the server API for UserCarService service.
 // All implementations must embed UnimplementedUserCarServiceServer
 // for forward compatibility.
@@ -263,6 +280,12 @@ type UserCarServiceServer interface {
 	// future render reuses the cached id, sparing the S3 round-trip.
 	SaveCarTelegramFile(context.Context, *SaveCarTelegramFileRequest) (*SaveCarTelegramFileResponse, error)
 	SaveGarageTelegramFile(context.Context, *SaveGarageTelegramFileRequest) (*SaveGarageTelegramFileResponse, error)
+	// ReportRenderComplete is called by the gogame render worker after
+	// it uploaded the rendered car images to S3. Marks the car_user row
+	// ready (finish = true) and stores the S3 keys — the only write path
+	// for render artifacts, replacing the worker's former direct DB
+	// access.
+	ReportRenderComplete(context.Context, *ReportRenderCompleteRequest) (*ReportRenderCompleteResponse, error)
 	mustEmbedUnimplementedUserCarServiceServer()
 }
 
@@ -320,6 +343,9 @@ func (UnimplementedUserCarServiceServer) SaveCarTelegramFile(context.Context, *S
 }
 func (UnimplementedUserCarServiceServer) SaveGarageTelegramFile(context.Context, *SaveGarageTelegramFileRequest) (*SaveGarageTelegramFileResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method SaveGarageTelegramFile not implemented")
+}
+func (UnimplementedUserCarServiceServer) ReportRenderComplete(context.Context, *ReportRenderCompleteRequest) (*ReportRenderCompleteResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ReportRenderComplete not implemented")
 }
 func (UnimplementedUserCarServiceServer) mustEmbedUnimplementedUserCarServiceServer() {}
 func (UnimplementedUserCarServiceServer) testEmbeddedByValue()                        {}
@@ -630,6 +656,24 @@ func _UserCarService_SaveGarageTelegramFile_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserCarService_ReportRenderComplete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReportRenderCompleteRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserCarServiceServer).ReportRenderComplete(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserCarService_ReportRenderComplete_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserCarServiceServer).ReportRenderComplete(ctx, req.(*ReportRenderCompleteRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserCarService_ServiceDesc is the grpc.ServiceDesc for UserCarService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -700,6 +744,10 @@ var UserCarService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SaveGarageTelegramFile",
 			Handler:    _UserCarService_SaveGarageTelegramFile_Handler,
+		},
+		{
+			MethodName: "ReportRenderComplete",
+			Handler:    _UserCarService_ReportRenderComplete_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

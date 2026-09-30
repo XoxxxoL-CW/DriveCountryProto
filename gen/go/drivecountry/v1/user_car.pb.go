@@ -2043,6 +2043,114 @@ func (*SaveGarageTelegramFileResponse) Descriptor() ([]byte, []int) {
 	return file_drivecountry_v1_user_car_proto_rawDescGZIP(), []int{35}
 }
 
+type ReportRenderCompleteRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// car_user_id — the row to mark ready.
+	UserCarId int32 `protobuf:"varint,1,opt,name=user_car_id,json=userCarId,proto3" json:"user_car_id,omitempty"`
+	// owner_user_id must match car_user.owner_id: the worker proves it
+	// rendered for the right row (it receives the owner in the render
+	// event), a mismatch is treated as "car not found".
+	OwnerUserId   int64  `protobuf:"varint,2,opt,name=owner_user_id,json=ownerUserId,proto3" json:"owner_user_id,omitempty"`
+	S3Key         string `protobuf:"bytes,3,opt,name=s3_key,json=s3Key,proto3" json:"s3_key,omitempty"`
+	GarageS3Key   string `protobuf:"bytes,4,opt,name=garage_s3_key,json=garageS3Key,proto3" json:"garage_s3_key,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ReportRenderCompleteRequest) Reset() {
+	*x = ReportRenderCompleteRequest{}
+	mi := &file_drivecountry_v1_user_car_proto_msgTypes[36]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ReportRenderCompleteRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReportRenderCompleteRequest) ProtoMessage() {}
+
+func (x *ReportRenderCompleteRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_drivecountry_v1_user_car_proto_msgTypes[36]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReportRenderCompleteRequest.ProtoReflect.Descriptor instead.
+func (*ReportRenderCompleteRequest) Descriptor() ([]byte, []int) {
+	return file_drivecountry_v1_user_car_proto_rawDescGZIP(), []int{36}
+}
+
+func (x *ReportRenderCompleteRequest) GetUserCarId() int32 {
+	if x != nil {
+		return x.UserCarId
+	}
+	return 0
+}
+
+func (x *ReportRenderCompleteRequest) GetOwnerUserId() int64 {
+	if x != nil {
+		return x.OwnerUserId
+	}
+	return 0
+}
+
+func (x *ReportRenderCompleteRequest) GetS3Key() string {
+	if x != nil {
+		return x.S3Key
+	}
+	return ""
+}
+
+func (x *ReportRenderCompleteRequest) GetGarageS3Key() string {
+	if x != nil {
+		return x.GarageS3Key
+	}
+	return ""
+}
+
+type ReportRenderCompleteResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ReportRenderCompleteResponse) Reset() {
+	*x = ReportRenderCompleteResponse{}
+	mi := &file_drivecountry_v1_user_car_proto_msgTypes[37]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ReportRenderCompleteResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReportRenderCompleteResponse) ProtoMessage() {}
+
+func (x *ReportRenderCompleteResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_drivecountry_v1_user_car_proto_msgTypes[37]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReportRenderCompleteResponse.ProtoReflect.Descriptor instead.
+func (*ReportRenderCompleteResponse) Descriptor() ([]byte, []int) {
+	return file_drivecountry_v1_user_car_proto_rawDescGZIP(), []int{37}
+}
+
 var File_drivecountry_v1_user_car_proto protoreflect.FileDescriptor
 
 const file_drivecountry_v1_user_car_proto_rawDesc = "" +
@@ -2177,7 +2285,13 @@ const file_drivecountry_v1_user_car_proto_rawDesc = "" +
 	"\vuser_car_id\x18\x01 \x01(\x05R\tuserCarId\x12(\n" +
 	"\x10telegram_file_id\x18\x02 \x01(\tR\x0etelegramFileId\x125\n" +
 	"\x17telegram_file_unique_id\x18\x03 \x01(\tR\x14telegramFileUniqueId\" \n" +
-	"\x1eSaveGarageTelegramFileResponse2\x97\r\n" +
+	"\x1eSaveGarageTelegramFileResponse\"\x9c\x01\n" +
+	"\x1bReportRenderCompleteRequest\x12\x1e\n" +
+	"\vuser_car_id\x18\x01 \x01(\x05R\tuserCarId\x12\"\n" +
+	"\rowner_user_id\x18\x02 \x01(\x03R\vownerUserId\x12\x15\n" +
+	"\x06s3_key\x18\x03 \x01(\tR\x05s3Key\x12\"\n" +
+	"\rgarage_s3_key\x18\x04 \x01(\tR\vgarageS3Key\"\x1e\n" +
+	"\x1cReportRenderCompleteResponse2\x8c\x0e\n" +
 	"\x0eUserCarService\x12C\n" +
 	"\x04List\x12\x1c.drivecountry.v1.ListRequest\x1a\x1d.drivecountry.v1.ListResponse\x12O\n" +
 	"\bRetrieve\x12 .drivecountry.v1.RetrieveRequest\x1a!.drivecountry.v1.RetrieveResponse\x12y\n" +
@@ -2194,7 +2308,8 @@ const file_drivecountry_v1_user_car_proto_rawDesc = "" +
 	"\rCancelCarDeal\x12%.drivecountry.v1.CancelCarDealRequest\x1a&.drivecountry.v1.CancelCarDealResponse\x12^\n" +
 	"\rExpireCarDeal\x12%.drivecountry.v1.ExpireCarDealRequest\x1a&.drivecountry.v1.ExpireCarDealResponse\x12p\n" +
 	"\x13SaveCarTelegramFile\x12+.drivecountry.v1.SaveCarTelegramFileRequest\x1a,.drivecountry.v1.SaveCarTelegramFileResponse\x12y\n" +
-	"\x16SaveGarageTelegramFile\x12..drivecountry.v1.SaveGarageTelegramFileRequest\x1a/.drivecountry.v1.SaveGarageTelegramFileResponseBOZMgithub.com/XoxxxoL-CW/DriveCountryProto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
+	"\x16SaveGarageTelegramFile\x12..drivecountry.v1.SaveGarageTelegramFileRequest\x1a/.drivecountry.v1.SaveGarageTelegramFileResponse\x12s\n" +
+	"\x14ReportRenderComplete\x12,.drivecountry.v1.ReportRenderCompleteRequest\x1a-.drivecountry.v1.ReportRenderCompleteResponseBOZMgithub.com/XoxxxoL-CW/DriveCountryProto/gen/go/drivecountry/v1;drivecountryv1b\x06proto3"
 
 var (
 	file_drivecountry_v1_user_car_proto_rawDescOnce sync.Once
@@ -2208,7 +2323,7 @@ func file_drivecountry_v1_user_car_proto_rawDescGZIP() []byte {
 	return file_drivecountry_v1_user_car_proto_rawDescData
 }
 
-var file_drivecountry_v1_user_car_proto_msgTypes = make([]protoimpl.MessageInfo, 36)
+var file_drivecountry_v1_user_car_proto_msgTypes = make([]protoimpl.MessageInfo, 38)
 var file_drivecountry_v1_user_car_proto_goTypes = []any{
 	(*UserCar)(nil),                        // 0: drivecountry.v1.UserCar
 	(*UserCarWithPrice)(nil),               // 1: drivecountry.v1.UserCarWithPrice
@@ -2246,6 +2361,8 @@ var file_drivecountry_v1_user_car_proto_goTypes = []any{
 	(*SaveCarTelegramFileResponse)(nil),    // 33: drivecountry.v1.SaveCarTelegramFileResponse
 	(*SaveGarageTelegramFileRequest)(nil),  // 34: drivecountry.v1.SaveGarageTelegramFileRequest
 	(*SaveGarageTelegramFileResponse)(nil), // 35: drivecountry.v1.SaveGarageTelegramFileResponse
+	(*ReportRenderCompleteRequest)(nil),    // 36: drivecountry.v1.ReportRenderCompleteRequest
+	(*ReportRenderCompleteResponse)(nil),   // 37: drivecountry.v1.ReportRenderCompleteResponse
 }
 var file_drivecountry_v1_user_car_proto_depIdxs = []int32{
 	0,  // 0: drivecountry.v1.UserCarWithPrice.car:type_name -> drivecountry.v1.UserCar
@@ -2275,24 +2392,26 @@ var file_drivecountry_v1_user_car_proto_depIdxs = []int32{
 	30, // 24: drivecountry.v1.UserCarService.ExpireCarDeal:input_type -> drivecountry.v1.ExpireCarDealRequest
 	32, // 25: drivecountry.v1.UserCarService.SaveCarTelegramFile:input_type -> drivecountry.v1.SaveCarTelegramFileRequest
 	34, // 26: drivecountry.v1.UserCarService.SaveGarageTelegramFile:input_type -> drivecountry.v1.SaveGarageTelegramFileRequest
-	5,  // 27: drivecountry.v1.UserCarService.List:output_type -> drivecountry.v1.ListResponse
-	7,  // 28: drivecountry.v1.UserCarService.Retrieve:output_type -> drivecountry.v1.RetrieveResponse
-	9,  // 29: drivecountry.v1.UserCarService.RetrieveWithOwnerCheck:output_type -> drivecountry.v1.RetrieveWithOwnerCheckResponse
-	11, // 30: drivecountry.v1.UserCarService.SetActive:output_type -> drivecountry.v1.SetActiveResponse
-	13, // 31: drivecountry.v1.UserCarService.IsListedOnUsedMarket:output_type -> drivecountry.v1.IsListedOnUsedMarketResponse
-	15, // 32: drivecountry.v1.UserCarService.StartSellCarToState:output_type -> drivecountry.v1.StartSellCarToStateResponse
-	17, // 33: drivecountry.v1.UserCarService.SellCarToState:output_type -> drivecountry.v1.SellCarToStateResponse
-	19, // 34: drivecountry.v1.UserCarService.GenerateCarDealPreview:output_type -> drivecountry.v1.GenerateCarDealPreviewResponse
-	21, // 35: drivecountry.v1.UserCarService.CreateCarDeal:output_type -> drivecountry.v1.CreateCarDealResponse
-	23, // 36: drivecountry.v1.UserCarService.SetCarDealBuyerMessage:output_type -> drivecountry.v1.SetCarDealBuyerMessageResponse
-	25, // 37: drivecountry.v1.UserCarService.GetCarForSell:output_type -> drivecountry.v1.GetCarForSellResponse
-	27, // 38: drivecountry.v1.UserCarService.AcceptCarDealAsBuyer:output_type -> drivecountry.v1.AcceptCarDealAsBuyerResponse
-	29, // 39: drivecountry.v1.UserCarService.CancelCarDeal:output_type -> drivecountry.v1.CancelCarDealResponse
-	31, // 40: drivecountry.v1.UserCarService.ExpireCarDeal:output_type -> drivecountry.v1.ExpireCarDealResponse
-	33, // 41: drivecountry.v1.UserCarService.SaveCarTelegramFile:output_type -> drivecountry.v1.SaveCarTelegramFileResponse
-	35, // 42: drivecountry.v1.UserCarService.SaveGarageTelegramFile:output_type -> drivecountry.v1.SaveGarageTelegramFileResponse
-	27, // [27:43] is the sub-list for method output_type
-	11, // [11:27] is the sub-list for method input_type
+	36, // 27: drivecountry.v1.UserCarService.ReportRenderComplete:input_type -> drivecountry.v1.ReportRenderCompleteRequest
+	5,  // 28: drivecountry.v1.UserCarService.List:output_type -> drivecountry.v1.ListResponse
+	7,  // 29: drivecountry.v1.UserCarService.Retrieve:output_type -> drivecountry.v1.RetrieveResponse
+	9,  // 30: drivecountry.v1.UserCarService.RetrieveWithOwnerCheck:output_type -> drivecountry.v1.RetrieveWithOwnerCheckResponse
+	11, // 31: drivecountry.v1.UserCarService.SetActive:output_type -> drivecountry.v1.SetActiveResponse
+	13, // 32: drivecountry.v1.UserCarService.IsListedOnUsedMarket:output_type -> drivecountry.v1.IsListedOnUsedMarketResponse
+	15, // 33: drivecountry.v1.UserCarService.StartSellCarToState:output_type -> drivecountry.v1.StartSellCarToStateResponse
+	17, // 34: drivecountry.v1.UserCarService.SellCarToState:output_type -> drivecountry.v1.SellCarToStateResponse
+	19, // 35: drivecountry.v1.UserCarService.GenerateCarDealPreview:output_type -> drivecountry.v1.GenerateCarDealPreviewResponse
+	21, // 36: drivecountry.v1.UserCarService.CreateCarDeal:output_type -> drivecountry.v1.CreateCarDealResponse
+	23, // 37: drivecountry.v1.UserCarService.SetCarDealBuyerMessage:output_type -> drivecountry.v1.SetCarDealBuyerMessageResponse
+	25, // 38: drivecountry.v1.UserCarService.GetCarForSell:output_type -> drivecountry.v1.GetCarForSellResponse
+	27, // 39: drivecountry.v1.UserCarService.AcceptCarDealAsBuyer:output_type -> drivecountry.v1.AcceptCarDealAsBuyerResponse
+	29, // 40: drivecountry.v1.UserCarService.CancelCarDeal:output_type -> drivecountry.v1.CancelCarDealResponse
+	31, // 41: drivecountry.v1.UserCarService.ExpireCarDeal:output_type -> drivecountry.v1.ExpireCarDealResponse
+	33, // 42: drivecountry.v1.UserCarService.SaveCarTelegramFile:output_type -> drivecountry.v1.SaveCarTelegramFileResponse
+	35, // 43: drivecountry.v1.UserCarService.SaveGarageTelegramFile:output_type -> drivecountry.v1.SaveGarageTelegramFileResponse
+	37, // 44: drivecountry.v1.UserCarService.ReportRenderComplete:output_type -> drivecountry.v1.ReportRenderCompleteResponse
+	28, // [28:45] is the sub-list for method output_type
+	11, // [11:28] is the sub-list for method input_type
 	11, // [11:11] is the sub-list for extension type_name
 	11, // [11:11] is the sub-list for extension extendee
 	0,  // [0:11] is the sub-list for field type_name
@@ -2309,7 +2428,7 @@ func file_drivecountry_v1_user_car_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_drivecountry_v1_user_car_proto_rawDesc), len(file_drivecountry_v1_user_car_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   36,
+			NumMessages:   38,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
